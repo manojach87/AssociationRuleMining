@@ -47,7 +47,7 @@ public class Kdd extends javax.swing.JFrame {
 	public static List<String> stableAttributes = new ArrayList<String>();
 	public static List<String> flexibleAttributes = new ArrayList<String>();
 	public static Kdd kdd;
-	public static String decisionAtribute,decisionFrom,decisionTo;
+	public static String decisionAtribute,decisionFrom,decisionTo, delimiter;
 	public static String userStableAttribute;
         public static int minimum_Confidence=0,minimum_Support=0;
 	public static StringBuilder stringBuilder = new StringBuilder();
@@ -129,8 +129,12 @@ public class Kdd extends javax.swing.JFrame {
 
         panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBox2.setEditable(true);
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
         panel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 69, 150, -1));
 
         label3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -309,7 +313,7 @@ public class Kdd extends javax.swing.JFrame {
                 stableAttrsTextValueChanged(evt);
             }
         });
-        jPanel2.add(stableAttrs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 244, 453, 30));
+        jPanel2.add(stableAttrs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 453, 30));
 
         label10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         label10.setForeground(java.awt.Color.black);
@@ -323,7 +327,7 @@ public class Kdd extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(308, 297, -1, -1));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(308, 250, -1, -1));
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -498,6 +502,12 @@ public class Kdd extends javax.swing.JFrame {
         attrBrowseBtnActionPerformed(evt);
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+        delimiter = (String) jComboBox2.getSelectedItem();
+        //System.out.println(delimiter);
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -564,8 +574,10 @@ public class Kdd extends javax.swing.JFrame {
                                 String nextLine = input.nextLine();
                                 //System.out.println(nextLine);
                                 String[] lineData;
-                                if(nextLine.contains(",")){
-                                    lineData = nextLine.split(",");
+                                //if(nextLine.contains(",")){
+                                if(nextLine.contains(delimiter)){
+                                    //lineData = nextLine.split(",");
+                                    lineData = nextLine.split(delimiter);
                                     System.out.println(lineData.toString());
                                 }else{
                                      lineData = nextLine.split("\\s+");
