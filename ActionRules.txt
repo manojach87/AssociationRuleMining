@@ -1,0 +1,42 @@
+
+Loop 1:--------------------------[A1] = [x9, x1, x3, x4, x5, x7]
+[B2] = [x8, x9, x1, x7]
+[A2] = [x8, x2, x6]
+[C1] = [x9, x1, x3, x5, x6]
+[B1] = [x2, x3, x4, x5, x6]
+[C2] = [x8, x2, x4, x7]
+
+Certain Rules:75 minConfidence 3 minSupport 
+[C2] -> D0[Support:-4, Confidence:-100%]
+75 minConfidence 3 minSupport 
+[B2] -> D0[Support:-4, Confidence:-100%]
+
+Possible Rules:
+[A1] -> D0[Support:-5, Confidence:-83%]
+
+Loop 2:--------------------------[A2, B1] = [x2, x6]
+[C1, B1] = [x3, x5, x6]
+[A1, C1] = [x9, x1, x3, x5]
+[A2, C1] = [x6]
+[A1, B1] = [x3, x4, x5]
+
+Certain Rules:75 minConfidence 3 minSupport 
+[C2] -> D0[Support:-4, Confidence:-100%]
+75 minConfidence 3 minSupport 
+[B2] -> D0[Support:-4, Confidence:-100%]
+75 minConfidence 3 minSupport 
+
+Possible Rules:
+[A1, C1] -> D0[Support:-3, Confidence:-75%]
+
+Loop 3:--------------------------[A1, A2, B1] = []
+[A1, C1, B1] = [x3, x5]
+[A2, C1, B1] = [x6]
+
+Certain Rules:75 minConfidence 3 minSupport 
+[C2] -> D0[Support:-4, Confidence:-100%]
+75 minConfidence 3 minSupport 
+75 minConfidence 3 minSupport 
+[B2] -> D0[Support:-4, Confidence:-100%]
+
+Possible Rules:
