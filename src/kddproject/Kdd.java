@@ -185,7 +185,7 @@ public class Kdd extends javax.swing.JFrame {
         jLabel1.setText("Delimiter");
         panel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 84, -1));
 
-        delimiterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|" }));
+        delimiterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|", "Other" }));
         delimiterComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 delimiterComboBoxActionPerformed(evt);
