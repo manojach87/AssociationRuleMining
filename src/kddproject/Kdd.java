@@ -48,14 +48,16 @@ public class Kdd extends javax.swing.JFrame {
 	public static List<String> flexibleAttributes = new ArrayList<String>();
 	public static Kdd kdd;
 	public static String decisionAtribute,decisionFrom,decisionTo, delimiter;
+        public boolean hasHeader = false;
 	public static String userStableAttribute;
         public static int minimum_Confidence=0,minimum_Support=0;
 	public static StringBuilder stringBuilder = new StringBuilder();
 	public static ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
+        
 	
-	static Map<String, HashSet<String>> differentAttributeValues = new HashMap<String, HashSet<String>>();
+	static Map<String, HashSet<String>> distinctAttributeValues = new HashMap<String, HashSet<String>>();
 	static Map<HashSet<String>, HashSet<String>> attributeValues = new HashMap<HashSet<String>, HashSet<String>>();
-	static Map<HashSet<String>, HashSet<String>> reducedAttValues = new HashMap<HashSet<String>, HashSet<String>>();
+	static Map<HashSet<String>, HashSet<String>> reducedAttributeValues = new HashMap<HashSet<String>, HashSet<String>>();
 	static Map<String, HashSet<String>> decisionValues = new HashMap<String, HashSet<String>>();
 	static Map<ArrayList<String>, HashSet<String>> markedValues = new HashMap<ArrayList<String>, HashSet<String>>();
 	public static Map<ArrayList<String>,String> certainRules = new HashMap<ArrayList<String>,String>();
@@ -77,20 +79,22 @@ public class Kdd extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel3 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0));
         jLabelLoading = new javax.swing.JLabel();
         panel1 = new java.awt.Panel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        label3 = new java.awt.Label();
-        jTextField1 = new javax.swing.JTextField();
+        attrFileLabel = new java.awt.Label();
+        attrFilePathTextField = new javax.swing.JTextField();
+        attrFileBrowseBtn = new javax.swing.JButton();
         label4 = new java.awt.Label();
         jTextField2 = new javax.swing.JTextField();
         dataBrowseBtn = new javax.swing.JButton();
-        attrBrowseBtn = new javax.swing.JButton();
         submitBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        delimiterComboBox = new javax.swing.JComboBox<>();
+        delimiterOtherText = new javax.swing.JTextField();
+        hasHeaderCheckbox = new javax.swing.JCheckBox();
         label1 = new java.awt.Label();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
@@ -118,7 +122,7 @@ public class Kdd extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Kdd Project - Group 4: Action Rules ");
+        setTitle("Kdd Project - Group 1: Action Rules ");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -129,34 +133,35 @@ public class Kdd extends javax.swing.JFrame {
 
         panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        attrFileLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        attrFileLabel.setForeground(java.awt.Color.black);
+        attrFileLabel.setText("Attribute File");
+        panel1.add(attrFileLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        attrFilePathTextField.setEditable(false);
+        attrFilePathTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                attrFilePathTextFieldActionPerformed(evt);
             }
         });
-        panel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 69, 150, -1));
+        panel1.add(attrFilePathTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 308, -1));
 
-        label3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        label3.setForeground(java.awt.Color.black);
-        label3.setText("Attribute File");
-        panel1.add(label3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, -1));
-
-        jTextField1.setEditable(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        attrFileBrowseBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        attrFileBrowseBtn.setLabel("...");
+        attrFileBrowseBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                attrFileBrowseBtnActionPerformed(evt);
             }
         });
-        panel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 8, 308, -1));
+        panel1.add(attrFileBrowseBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 70, 21, 20));
 
         label4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         label4.setForeground(java.awt.Color.black);
         label4.setText("Data File ");
-        panel1.add(label4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 36, 84, -1));
+        panel1.add(label4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 84, -1));
 
         jTextField2.setEditable(false);
-        panel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 39, 308, -1));
+        panel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 308, -1));
 
         dataBrowseBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         dataBrowseBtn.setText("...");
@@ -165,16 +170,7 @@ public class Kdd extends javax.swing.JFrame {
                 dataBrowseBtnActionPerformed(evt);
             }
         });
-        panel1.add(dataBrowseBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 42, 21, 20));
-
-        attrBrowseBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        attrBrowseBtn.setLabel("...");
-        attrBrowseBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                attrBrowseBtnActionPerformed(evt);
-            }
-        });
-        panel1.add(attrBrowseBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 11, 21, 20));
+        panel1.add(dataBrowseBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, 21, 20));
 
         submitBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         submitBtn.setText("Load");
@@ -183,14 +179,30 @@ public class Kdd extends javax.swing.JFrame {
                 submitBtnActionPerformed(evt);
             }
         });
-        panel1.add(submitBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(345, 97, 116, 25));
+        panel1.add(submitBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 116, 25));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel1.setText("Delimiter");
-        panel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 72, 84, -1));
+        panel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 84, -1));
 
-        jTextField3.setText("Other");
-        panel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 132, -1));
+        delimiterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|" }));
+        delimiterComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delimiterComboBoxActionPerformed(evt);
+            }
+        });
+        panel1.add(delimiterComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 150, -1));
+
+        delimiterOtherText.setText("Other");
+        panel1.add(delimiterOtherText, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 132, -1));
+
+        hasHeaderCheckbox.setText("Check if first row in data file contains headers.");
+        hasHeaderCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hasHeaderCheckboxActionPerformed(evt);
+            }
+        });
+        panel1.add(hasHeaderCheckbox, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, -1, -1));
 
         label1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         label1.setText("Files to process");
@@ -349,7 +361,7 @@ public class Kdd extends javax.swing.JFrame {
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1)
                             .add(jSeparator2)
-                            .add(jSeparator3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                            .add(jSeparator3)
                             .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(panel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
@@ -364,8 +376,8 @@ public class Kdd extends javax.swing.JFrame {
                         .addContainerGap()
                         .add(label1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(2, 2, 2)
+                        .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 151, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -399,18 +411,18 @@ public class Kdd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
    
-    private void attrBrowseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attrBrowseBtnActionPerformed
+    private void attrFileBrowseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attrFileBrowseBtnActionPerformed
         // TODO add your handling code here
         fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(Kdd.this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
           File selectedFile = fileChooser.getSelectedFile();
           attributeFilePath = selectedFile.getAbsolutePath();
-          jTextField1.setText(attributeFilePath);
+          attrFilePathTextField.setText(attributeFilePath);
           readAttributes();
     }              
         
-    }//GEN-LAST:event_attrBrowseBtnActionPerformed
+    }//GEN-LAST:event_attrFileBrowseBtnActionPerformed
 
     private void dataBrowseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataBrowseBtnActionPerformed
         // TODO add your handling code here:
@@ -420,7 +432,8 @@ public class Kdd extends javax.swing.JFrame {
           File selectedFile = fileChooser.getSelectedFile();
           dataFilePath = selectedFile.getAbsolutePath();
           jTextField2.setText(dataFilePath);
-          readData();
+          //readData();
+          //readData(dataFilePath,delimiter,hasHeader);
     }            
     }//GEN-LAST:event_dataBrowseBtnActionPerformed
 
@@ -428,6 +441,7 @@ public class Kdd extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Read stable,flexible and decision attributes
                 //label2.setText("Available Attributes are:" +" "+attributeNames.toString());
+                readData(dataFilePath,delimiter,hasHeader);
                 attrValues.setText(attributeNames.toString());
                 for(String attr:attributeNames){
                     jComboBox1.addItem(attr);
@@ -497,16 +511,29 @@ public class Kdd extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_confidenceTxtFieldActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void attrFilePathTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attrFilePathTextFieldActionPerformed
         // TODO add your handling code here:
-        attrBrowseBtnActionPerformed(evt);
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        attrFileBrowseBtnActionPerformed(evt);
+    }//GEN-LAST:event_attrFilePathTextFieldActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void delimiterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delimiterComboBoxActionPerformed
         // TODO add your handling code here:
-        delimiter = (String) jComboBox2.getSelectedItem();
+        String selection = (String) delimiterComboBox.getSelectedItem();
+        if(selection != "Other")
+            delimiter = selection;
+        else delimiter = delimiterOtherText.getText();
         //System.out.println(delimiter);
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_delimiterComboBoxActionPerformed
+
+    private void hasHeaderCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasHeaderCheckboxActionPerformed
+        // TODO add your handling code here:
+        System.out.println(hasHeaderCheckbox.isSelected());
+        hasHeader=hasHeaderCheckbox.isSelected();
+        attrFileBrowseBtn    .setEnabled(!hasHeader);
+        attrFileLabel        .setEnabled(!hasHeader);
+        attrFilePathTextField.setEnabled(!hasHeader);
+        
+    }//GEN-LAST:event_hasHeaderCheckboxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -565,6 +592,33 @@ public class Kdd extends javax.swing.JFrame {
 		
 	}
         
+	private static void readAttributes(String fileName, String delim) {
+		try {
+                    System.out.println(fileName);
+			Scanner headerScan = new Scanner(new File(fileName));
+			//input.hasNext();
+			//attributeNames.clear();
+			if(headerScan.hasNextLine()) {
+				String[] splitted = (headerScan.nextLine()).split(delim); // Read First Line and split by delimiter
+				
+				for(int i=0; i<splitted.length; i++)
+				{
+					attributeNames.add(splitted[i]);                 // Add to AttributeNames
+				}
+				//System.out.println(attributeNames);
+			}
+			headerScan.close();
+		} catch (FileNotFoundException e) {
+			printMessage("File Not Found");
+			e.printStackTrace();
+		} 
+//		catch (NoSuchElementException e) {
+//			printMessage("File Found But Empty Header! Please Update the headers and try Again.");
+//			//e.printStackTrace();
+//		}
+		
+	}
+
         private static void readData() {
 		try {
 			input = new Scanner(new File(dataFilePath));
@@ -603,8 +657,8 @@ public class Kdd extends javax.swing.JFrame {
 					mapKey.add(key);
 					setMap(attributeValues,lineData[i],mapKey,lineNo);
 					
-					if (differentAttributeValues.containsKey(attributeName)) {
-						set = differentAttributeValues.get(attributeName);
+					if (distinctAttributeValues.containsKey(attributeName)) {
+						set = distinctAttributeValues.get(attributeName);
 						set.add(key);
 						
 					}else{
@@ -612,7 +666,7 @@ public class Kdd extends javax.swing.JFrame {
 					}
 					
 					set.add(key);
-					differentAttributeValues.put(attributeName, set);
+					distinctAttributeValues.put(attributeName, set);
 				}
 		
 				data.add(tempList);
@@ -628,6 +682,78 @@ public class Kdd extends javax.swing.JFrame {
 		}
 	}
     
+	private static void readData(String fileName, String delim, boolean hasHeader ) {
+		try {
+                    //System.out.println(fileName);
+			input = new Scanner(new File(fileName));
+			int lineNo = 0;
+			if (hasHeader==true) {
+				if(input.hasNextLine()){
+					input.nextLine(); // Read Header and do nothing
+					readAttributes(fileName, delim);
+				}
+			}
+			else {
+				String headerFileName = getHeaderFile(hasHeader);
+				readAttributes(headerFileName, delim);
+			}
+			while(input.hasNextLine()){
+				String[] lineData = input.nextLine().split(delim);
+				String key;
+				
+				lineNo++;
+				ArrayList<String> tempList = new ArrayList<String>();
+				HashSet<String> set;
+				
+				for (int i=0;i<lineData.length;i++) {
+					String currentAttributeValue = lineData[i];
+					String attributeName = attributeNames.get(i);
+					
+					//int ii = getSetID(attributeName,currentAttributeValue);
+					key = attributeName + currentAttributeValue;
+					//key = attributeName + ii;
+					//System.out.println(getSetID(attributeName,currentAttributeValue) + ' ' + attributeName + ' ' + currentAttributeValue);
+					
+					//System.out.println(ii);
+					tempList.add(key);
+
+					HashSet<String> mapKey = new HashSet<String>();
+					mapKey.add(key);
+					setMap(attributeValues,lineData[i],mapKey,lineNo);
+					
+					if (distinctAttributeValues.containsKey(attributeName)) {
+						set = distinctAttributeValues.get(attributeName);
+						set.add(key);
+						
+					}else{
+						set = new HashSet<String>();
+					}
+					
+					set.add(key);
+					distinctAttributeValues.put(attributeName, set);
+				}
+		
+				data.add(tempList);
+				
+			}
+                        for(ArrayList<String> dataList: data){
+                             printList(dataList);
+                        }
+
+			input.close();
+			
+		} catch (FileNotFoundException e) {
+			printMessage("File Not Found");
+			e.printStackTrace();
+		}
+	}
+	private static String getHeaderFile(boolean fileHasHeader) {
+		if(fileHasHeader)
+			return null;
+		else
+			return attributeFilePath;
+	}
+
         private static void setMap(Map<HashSet<String>, HashSet<String>> values,
 			String string, HashSet<String> key, int lineNo) {
 		HashSet<String> tempSet;
@@ -835,7 +961,7 @@ public class Kdd extends javax.swing.JFrame {
 	}
 
 	private static boolean checkSameGroup(HashSet<String> combinedKeys) {
-		for(Map.Entry<String, HashSet<String>> singleAttribute : differentAttributeValues.entrySet()){
+		for(Map.Entry<String, HashSet<String>> singleAttribute : distinctAttributeValues.entrySet()){
 			if(singleAttribute.getValue().containsAll(combinedKeys)){
 				return true;
 			}
@@ -856,14 +982,14 @@ public class Kdd extends javax.swing.JFrame {
 				}
 			}
 		}
-		reducedAttValues.put(combinedKeys, combinedValues);
+		reducedAttributeValues.put(combinedKeys, combinedValues);
 	
 	}
 
 	private static void removeRedundantValues() {
 		HashSet<String> mark = new HashSet<String>();
 		
-		for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttValues.entrySet()){
+		for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttributeValues.entrySet()){
 			for(Map.Entry<HashSet<String>, HashSet<String>> attributeValue : attributeValues.entrySet()){
 				
 				if(attributeValue.getValue().containsAll(reducedAttributeValue.getValue()) || reducedAttributeValue.getValue().isEmpty()){
@@ -872,17 +998,17 @@ public class Kdd extends javax.swing.JFrame {
 			}
 		}
 		
-		reducedAttValues.remove(mark);
+		reducedAttributeValues.remove(mark);
 		
 		
 	}
 	
 	private static void clearAttributeValues() {
 		 attributeValues.clear();
-		 for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttValues.entrySet()){
+		 for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttributeValues.entrySet()){
 			 attributeValues.put(reducedAttributeValue.getKey(), reducedAttributeValue.getValue());
 		 }
-		 reducedAttValues.clear();
+		 reducedAttributeValues.clear();
 	}
  private static void generateActionRules() {
         try {
@@ -954,7 +1080,7 @@ public class Kdd extends javax.swing.JFrame {
  }
 
     private static String checkAttribute(String value1) {
-        for (Map.Entry<String, HashSet<String>> entryValue : differentAttributeValues
+        for (Map.Entry<String, HashSet<String>> entryValue : distinctAttributeValues
                 .entrySet()) {
             if (entryValue.getValue().contains(value1)) {
                 return entryValue.getKey();
@@ -988,7 +1114,7 @@ public class Kdd extends javax.swing.JFrame {
                             String[] keys = userStableAttribute.split(",");
                                 for(int i=0;i<keys.length;i++){
                                 if(checkValid(attributes,keys[i])){
-				stableAttributes.addAll(differentAttributeValues.get(keys[i]));
+				stableAttributes.addAll(distinctAttributeValues.get(keys[i]));
 				attributes.remove(userStableAttribute);
                                 }else{
                                     
@@ -998,7 +1124,7 @@ public class Kdd extends javax.swing.JFrame {
  //                           }
                         }else{
                             if(checkValid(attributes,userStableAttribute)){
-				stableAttributes.addAll(differentAttributeValues.get(userStableAttribute));
+				stableAttributes.addAll(distinctAttributeValues.get(userStableAttribute));
 				attributes.remove(userStableAttribute);
 			}else{
 				printMessage("Invalid Attribute name...\n");
@@ -1018,7 +1144,7 @@ public class Kdd extends javax.swing.JFrame {
 			attributes.remove(decisionAtribute);
 			flexibleAttributes = attributes;
 			
-			HashSet<String> decisionValues = differentAttributeValues.get(decisionAtribute);
+			HashSet<String> decisionValues = distinctAttributeValues.get(decisionAtribute);
 			removeDecisionValueFromAttributes(decisionValues);
 			
 		}else{
@@ -1056,17 +1182,22 @@ public class Kdd extends javax.swing.JFrame {
               kdd.jLabelLoading.setVisible(true);
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton attrBrowseBtn;
+    private javax.swing.JButton attrFileBrowseBtn;
+    private java.awt.Label attrFileLabel;
+    private javax.swing.JTextField attrFilePathTextField;
     private java.awt.Label attrValues;
+    private javax.swing.ButtonGroup buttonGroup1;
     private java.awt.TextField confidenceTxtField;
     private javax.swing.JButton dataBrowseBtn;
     private java.awt.TextField decisionValFrom;
     private java.awt.TextField decisionValTo;
+    private javax.swing.JComboBox<String> delimiterComboBox;
+    private javax.swing.JTextField delimiterOtherText;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JCheckBox hasHeaderCheckbox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelLoading;
     private javax.swing.JList<String> jList1;
@@ -1077,14 +1208,11 @@ public class Kdd extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private java.awt.Label label1;
     private java.awt.Label label10;
     private java.awt.Label label11;
     private java.awt.Label label2;
-    private java.awt.Label label3;
     private java.awt.Label label4;
     private java.awt.Label label5;
     private java.awt.Label label6;
