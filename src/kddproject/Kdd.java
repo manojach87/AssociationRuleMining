@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,6 +32,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.Popup;
 
 
 /**
@@ -44,29 +47,68 @@ public class Kdd extends javax.swing.JFrame {
     public static String attributeFilePath="";
     public static String dataFilePath="";
     public static List<String> attributeNames = new ArrayList<String>();
-	public static List<String> stableAttributes = new ArrayList<String>();
-	public static List<String> flexibleAttributes = new ArrayList<String>();
-	public static Kdd kdd;
-	public static String decisionAtribute,decisionFrom,decisionTo, delimiter;
-        public boolean hasHeader = false;
-	public static String userStableAttribute;
-        public static int minimum_Confidence=0,minimum_Support=0;
-	public static StringBuilder stringBuilder = new StringBuilder();
-	public static ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
-        
-	
-	static Map<String, HashSet<String>> distinctAttributeValues = new HashMap<String, HashSet<String>>();
-	static Map<HashSet<String>, HashSet<String>> attributeValues = new HashMap<HashSet<String>, HashSet<String>>();
-	static Map<HashSet<String>, HashSet<String>> reducedAttributeValues = new HashMap<HashSet<String>, HashSet<String>>();
-	static Map<String, HashSet<String>> decisionValues = new HashMap<String, HashSet<String>>();
-	static Map<ArrayList<String>, HashSet<String>> markedValues = new HashMap<ArrayList<String>, HashSet<String>>();
-	public static Map<ArrayList<String>,String> certainRules = new HashMap<ArrayList<String>,String>();
-	public static Map<ArrayList<String>,HashSet<String>> possibleRules = new HashMap<ArrayList<String>,HashSet<String>>();
+    public static List<String> stableAttributes = new ArrayList<String>();
+    public static List<String> flexibleAttributes = new ArrayList<String>();
+    public static Kdd kdd;
+    public static String decisionAtribute,decisionFrom,decisionTo, delimiter;
+    public boolean hasHeader = false;
+    public static String userStableAttribute;
+    public static int minimum_Confidence=0,minimum_Support=0;
+    public static StringBuilder stringBuilder = new StringBuilder();
+    public static ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
+
+
+    static Map<String, HashSet<String>> distinctAttributeValues = new HashMap<String, HashSet<String>>();
+    static Map<HashSet<String>, HashSet<String>> attributeValues = new HashMap<HashSet<String>, HashSet<String>>();
+    static Map<HashSet<String>, HashSet<String>> reducedAttributeValues = new HashMap<HashSet<String>, HashSet<String>>();
+    static Map<String, HashSet<String>> decisionValues = new HashMap<String, HashSet<String>>();
+    static Map<ArrayList<String>, HashSet<String>> markedValues = new HashMap<ArrayList<String>, HashSet<String>>();
+    public static Map<ArrayList<String>,String> certainRules = new HashMap<ArrayList<String>,String>();
+    public static Map<ArrayList<String>,HashSet<String>> possibleRules = new HashMap<ArrayList<String>,HashSet<String>>();
+
+    public void initVariables(){
+        attributeFilePath   ="";
+        dataFilePath        ="";
+        attributeNames      = new ArrayList<String>();
+        stableAttributes    = new ArrayList<String>();
+        flexibleAttributes  = new ArrayList<String>();
+        decisionAtribute    = "";
+        decisionFrom        = "";
+        decisionTo          = "";
+        delimiter           = "";
+        hasHeader           = false;
+        userStableAttribute = "";
+        minimum_Confidence  =0;
+        minimum_Support     =0;
+        stringBuilder       = new StringBuilder();
+        data                = new ArrayList<ArrayList<String>>(); 
+
+
+        distinctAttributeValues = new HashMap<String, HashSet<String>>();
+        attributeValues         = new HashMap<HashSet<String>, HashSet<String>>();
+        reducedAttributeValues  = new HashMap<HashSet<String>, HashSet<String>>();
+        decisionValues          = new HashMap<String, HashSet<String>>();
+        markedValues            = new HashMap<ArrayList<String>, HashSet<String>>();
+        certainRules            = new HashMap<ArrayList<String>,String>();
+        possibleRules           = new HashMap<ArrayList<String>,HashSet<String>>();
+        dataFilePathTextField   .setText("");
+        attrFilePathTextField   .setText("");
+        attrValues              .setText("");
+
+    }
     /**
      * Creates new form NewJFrame
      */
     public Kdd() {
         initComponents();
+        for( int i=0; i<jPanel1.getComponents().length; i++)
+        {
+            jPanel1.getComponents()[i].setEnabled(false);
+        }
+        for( int i=0; i<jPanel2.getComponents().length; i++)
+        {
+            jPanel2.getComponents()[i].setEnabled(false);
+        }
     }
     
 
@@ -79,7 +121,7 @@ public class Kdd extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        jOptionPane1 = new javax.swing.JOptionPane();
         jPanel3 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0));
         jLabelLoading = new javax.swing.JLabel();
@@ -88,7 +130,7 @@ public class Kdd extends javax.swing.JFrame {
         attrFilePathTextField = new javax.swing.JTextField();
         attrFileBrowseBtn = new javax.swing.JButton();
         label4 = new java.awt.Label();
-        jTextField2 = new javax.swing.JTextField();
+        dataFilePathTextField = new javax.swing.JTextField();
         dataBrowseBtn = new javax.swing.JButton();
         submitBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -119,6 +161,7 @@ public class Kdd extends javax.swing.JFrame {
         stableAttrs = new java.awt.TextField();
         label10 = new java.awt.Label();
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -160,8 +203,8 @@ public class Kdd extends javax.swing.JFrame {
         label4.setText("Data File ");
         panel1.add(label4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 84, -1));
 
-        jTextField2.setEditable(false);
-        panel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 308, -1));
+        dataFilePathTextField.setEditable(false);
+        panel1.add(dataFilePathTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 308, -1));
 
         dataBrowseBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         dataBrowseBtn.setText("...");
@@ -307,6 +350,7 @@ public class Kdd extends javax.swing.JFrame {
         attrValues.setForeground(java.awt.Color.black);
         jPanel1.add(attrValues, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 42, 230, -1));
 
+        jPanel2.setEnabled(false);
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jList1.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
@@ -340,6 +384,15 @@ public class Kdd extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(308, 250, -1, -1));
+
+        jButton3.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jButton3.setText("Reset");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -419,7 +472,7 @@ public class Kdd extends javax.swing.JFrame {
           File selectedFile = fileChooser.getSelectedFile();
           attributeFilePath = selectedFile.getAbsolutePath();
           attrFilePathTextField.setText(attributeFilePath);
-          readAttributes();
+          //readAttributes();
     }              
         
     }//GEN-LAST:event_attrFileBrowseBtnActionPerformed
@@ -431,7 +484,7 @@ public class Kdd extends javax.swing.JFrame {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
           File selectedFile = fileChooser.getSelectedFile();
           dataFilePath = selectedFile.getAbsolutePath();
-          jTextField2.setText(dataFilePath);
+          dataFilePathTextField.setText(dataFilePath);
           //readData();
           //readData(dataFilePath,delimiter,hasHeader);
     }            
@@ -440,15 +493,32 @@ public class Kdd extends javax.swing.JFrame {
     private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
         // TODO add your handling code here:
         //Read stable,flexible and decision attributes
-                //label2.setText("Available Attributes are:" +" "+attributeNames.toString());
-                readData(dataFilePath,delimiter,hasHeader);
-                attrValues.setText(attributeNames.toString());
-                for(String attr:attributeNames){
-                    jComboBox1.addItem(attr);
-                }
-		//setStableAttributes(attributeNames);
-		
-		//Find Certain and Possible rules
+        //label2.setText("Available Attributes are:" +" "+attributeNames.toString());
+        
+        
+        
+        boolean filesExist = false;
+        if(hasHeader){
+            filesExist = checkFile(dataFilePath) ;
+        }
+        else filesExist = checkFile(attributeFilePath) && checkFile(dataFilePath) ;
+
+        if (filesExist)
+        {
+            for( int i=0; i<jPanel1.getComponents().length; i++)
+            {
+                jPanel1.getComponents()[i].setEnabled(true);
+            }
+            readData(dataFilePath,delimiter,hasHeader);
+            attrValues.setText(attributeNames.toString());
+            attributeNames.forEach((attr) -> {
+                jComboBox1.addItem(attr);
+            });
+        } else{
+            jOptionPane1.showMessageDialog(null,"Have you chosen your files correctly?","File Not Found",JOptionPane.ERROR_MESSAGE);
+        }
+        //setStableAttributes(attributeNames);
+        //Find Certain and Possible rules
 		
     }//GEN-LAST:event_submitBtnActionPerformed
 
@@ -459,6 +529,11 @@ public class Kdd extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
+        for( int i=0; i<jPanel2.getComponents().length; i++)
+        {
+            jPanel2.getComponents()[i].setEnabled(true);
+        }
         setDecisionAttribute(attributeNames); 
         String[] flexArray = new String[flexibleAttributes.size()];
         for(int i=0;i<flexibleAttributes.size();i++){
@@ -472,6 +547,7 @@ public class Kdd extends javax.swing.JFrame {
         // TODO add your handling code here:
         setStableAttributes(attributeNames);
         findRules();
+        generateActionRules();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void decisionValFromTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_decisionValFromTextValueChanged
@@ -519,7 +595,7 @@ public class Kdd extends javax.swing.JFrame {
     private void delimiterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delimiterComboBoxActionPerformed
         // TODO add your handling code here:
         String selection = (String) delimiterComboBox.getSelectedItem();
-        if(selection != "Other")
+        if(!"Other".equals(selection))
             delimiter = selection;
         else delimiter = delimiterOtherText.getText();
         //System.out.println(delimiter);
@@ -535,10 +611,17 @@ public class Kdd extends javax.swing.JFrame {
         
     }//GEN-LAST:event_hasHeaderCheckboxActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        initVariables();
+        //new Kdd();
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    private JButton open = new JButton("Open");
+    private final JButton open = new JButton("Open");
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -553,27 +636,25 @@ public class Kdd extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Kdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Kdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Kdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (
+                ClassNotFoundException | 
+                InstantiationException | 
+                IllegalAccessException |
+                javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Kdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                kdd = new Kdd();
-                kdd.setVisible(true);
-                kdd.getContentPane().setBackground(Color.WHITE);
-                kdd.jLabelLoading.setVisible(false);
-                
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            kdd = new Kdd();
+            kdd.setVisible(true);
+            kdd.getContentPane().setBackground(Color.WHITE);
+            kdd.jLabelLoading.setVisible(false);
         });
     }
 
@@ -600,12 +681,8 @@ public class Kdd extends javax.swing.JFrame {
 			//attributeNames.clear();
 			if(headerScan.hasNextLine()) {
 				String[] splitted = (headerScan.nextLine()).split(delim); // Read First Line and split by delimiter
-				
-				for(int i=0; i<splitted.length; i++)
-				{
-					attributeNames.add(splitted[i]);                 // Add to AttributeNames
-				}
-				//System.out.println(attributeNames);
+                                attributeNames.addAll(Arrays.asList(splitted)); // Add to AttributeNames
+                        //System.out.println(attributeNames);
 			}
 			headerScan.close();
 		} catch (FileNotFoundException e) {
@@ -632,14 +709,14 @@ public class Kdd extends javax.swing.JFrame {
                                 if(nextLine.contains(delimiter)){
                                     //lineData = nextLine.split(",");
                                     lineData = nextLine.split(delimiter);
-                                    System.out.println(lineData.toString());
+                                    //System.out.println(lineData.toString());
                                 }else{
                                      lineData = nextLine.split("\\s+");
                                 }
 				String key;
 				
 				lineNo++;
-				ArrayList<String> tempList = new ArrayList<String>();
+				ArrayList<String> tempList = new ArrayList<>();
 				HashSet<String> set;
                                 //System.out.println(lineData.length);
                                 //System.out.println(attributeNames.size());
@@ -653,7 +730,7 @@ public class Kdd extends javax.swing.JFrame {
 					
 					tempList.add(key);
 
-					HashSet<String> mapKey = new HashSet<String>();
+					HashSet<String> mapKey = new HashSet<>();
 					mapKey.add(key);
 					setMap(attributeValues,lineData[i],mapKey,lineNo);
 					
@@ -662,7 +739,7 @@ public class Kdd extends javax.swing.JFrame {
 						set.add(key);
 						
 					}else{
-						set = new HashSet<String>();
+						set = new HashSet<>();
 					}
 					
 					set.add(key);
@@ -702,7 +779,7 @@ public class Kdd extends javax.swing.JFrame {
 				String key;
 				
 				lineNo++;
-				ArrayList<String> tempList = new ArrayList<String>();
+				ArrayList<String> tempList = new ArrayList<>();
 				HashSet<String> set;
 				
 				for (int i=0;i<lineData.length;i++) {
@@ -717,7 +794,7 @@ public class Kdd extends javax.swing.JFrame {
 					//System.out.println(ii);
 					tempList.add(key);
 
-					HashSet<String> mapKey = new HashSet<String>();
+					HashSet<String> mapKey = new HashSet<>();
 					mapKey.add(key);
 					setMap(attributeValues,lineData[i],mapKey,lineNo);
 					
@@ -726,7 +803,7 @@ public class Kdd extends javax.swing.JFrame {
 						set.add(key);
 						
 					}else{
-						set = new HashSet<String>();
+						set = new HashSet<>();
 					}
 					
 					set.add(key);
@@ -761,7 +838,7 @@ public class Kdd extends javax.swing.JFrame {
 		if (values.containsKey(key)) {
 			tempSet = values.get(key);						
 		}else{
-			tempSet = new HashSet<String>();
+			tempSet = new HashSet<>();
 		}
 		
 		tempSet.add("x"+lineNo);
@@ -782,8 +859,10 @@ public class Kdd extends javax.swing.JFrame {
 	private static void printAttributeMap(Map<HashSet<String>, HashSet<String>> values) {
 		for(Map.Entry<HashSet<String>, HashSet<String>> set : values.entrySet()){
 			printMessage(set.getKey().toString() + " = " + set.getValue());
-                        stringBuilder.append(set.getKey().toString() + " = " + set.getValue());
-                        stringBuilder.append(System.lineSeparator());
+                        stringBuilder.append(set.getKey().toString())
+                                     .append(" = ")
+                                     .append(set.getValue())
+                                     .append(System.lineSeparator());
 		}
 	}
 	
@@ -791,20 +870,30 @@ public class Kdd extends javax.swing.JFrame {
           kdd.jLabelLoading.setText("Generating Certain Rules");
           kdd.jLabelLoading.setVisible(true);
             printMessage("\nCertain Rules:");
-                stringBuilder.append(System.lineSeparator());
-                stringBuilder.append("Certain Rules:");
+                stringBuilder.append(System.lineSeparator())
+                             .append("Certain Rules:");
                 Iterator iterator = value.entrySet().iterator();
                 while(iterator.hasNext()){
                     Map.Entry set = (Map.Entry)iterator.next();
                     	int support = calculateSupportLERS((ArrayList<String>)set.getKey(),(String)set.getValue());
 			String confidence = calculateConfidenceLERS((ArrayList<String>)set.getKey(),(String)set.getValue());
                         System.out.println(minimum_Confidence+" minConfidence "+minimum_Support+" minSupport ");
-                        stringBuilder.append(minimum_Confidence+" minConfidence "+minimum_Support+" minSupport ");
-                        stringBuilder.append(System.lineSeparator());
+                        stringBuilder
+                                    .append(minimum_Confidence)
+                                    .append(" minConfidence ")
+                                    .append(minimum_Support)
+                                    .append(" minSupport ")
+                                    .append(System.lineSeparator());
 			if(Integer.parseInt(confidence) >= minimum_Confidence && support >= minimum_Support){
                             printMessage(set.getKey().toString() + " -> " + set.getValue() + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
-                            stringBuilder.append(set.getKey().toString() + " -> " + set.getValue() + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
-                            stringBuilder.append(System.lineSeparator());
+                            stringBuilder
+                                    .append(set.getKey().toString())
+                                    .append(" -> ").append(set.getValue())
+                                    .append("[Support:-").append(support)
+                                    .append(", Confidence:-")
+                                    .append(confidence)
+                                    .append("%]")
+                                    .append(System.lineSeparator());
                         }else{
                         iterator.remove();
                         }
@@ -817,9 +906,10 @@ public class Kdd extends javax.swing.JFrame {
                  kdd.jLabelLoading.setVisible(true);
 		if(!value.isEmpty()){
 			printMessage("\nPossible Rules:");
-                        stringBuilder.append(System.lineSeparator());
-                        stringBuilder.append("Possible Rules:");
-                        stringBuilder.append(System.lineSeparator());
+                        stringBuilder
+                                    .append(System.lineSeparator())
+                                    .append("Possible Rules:")
+                                    .append(System.lineSeparator());
                          Iterator iterator = value.entrySet().iterator();
                           while(iterator.hasNext()){
                             Map.Entry set = (Map.Entry)iterator.next();
@@ -831,8 +921,13 @@ public class Kdd extends javax.swing.JFrame {
 					
                                         if(Integer.parseInt(confidence) >= minimum_Confidence && support >= minimum_Support){
                                         printMessage(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
-                                        stringBuilder.append(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
-                                        stringBuilder.append(System.lineSeparator());
+                                        stringBuilder.append(set.getKey().toString())
+                                                .append(" -> ").append(possibleValue)
+                                                .append("[Support:-").append(support)
+                                                .append(", Confidence:-")
+                                                .append(confidence)
+                                                .append("%]")
+                                                .append(System.lineSeparator());
                                         }else{
                                            setIterator.remove();
                                         }
@@ -853,7 +948,7 @@ public class Kdd extends javax.swing.JFrame {
 	}
 	
 	private static int calculateSupportLERS(ArrayList<String> key, String value) {
-		ArrayList<String> tempList = new ArrayList<String>();
+		ArrayList<String> tempList = new ArrayList<>();
 		
 		for(String val : key){
 			tempList.add(val);
@@ -884,14 +979,16 @@ public class Kdd extends javax.swing.JFrame {
 		
 		while(!attributeValues.isEmpty()){
 			printMessage("\nLoop " + (++loopCount) +":");
-                        stringBuilder.append(System.lineSeparator());
-                        stringBuilder.append("Loop " + loopCount + ":" );
+                        stringBuilder
+                                .append(System.lineSeparator())
+                                .append("Loop ")
+                                .append(loopCount).append(":");
 			printMessage("--------------------------");
                         stringBuilder.append("--------------------------");
 			printAttributeMap(attributeValues);
 			
 			for (Map.Entry<HashSet<String>, HashSet<String>> set : attributeValues.entrySet()) {
-				ArrayList<String> setKey = new ArrayList<String>();
+				ArrayList<String> setKey = new ArrayList<>();
 				setKey.addAll(set.getKey());
 				
 				if (set.getValue().isEmpty()) {
@@ -907,7 +1004,7 @@ public class Kdd extends javax.swing.JFrame {
 				}
 				
 				if(!markedValues.containsKey(setKey)){
-					HashSet<String> possibleRulesSet = new HashSet<String>();
+					HashSet<String> possibleRulesSet = new HashSet<>();
 					for(Map.Entry<String, HashSet<String>> decisionSet : decisionValues.entrySet()){
 						possibleRulesSet.add(decisionSet.getKey());
 					}
@@ -932,20 +1029,20 @@ public class Kdd extends javax.swing.JFrame {
 
 	private static void removeMarkedValues() {
 		for(Map.Entry<ArrayList<String>, HashSet<String>> markedSet : markedValues.entrySet()){
-			attributeValues.remove(new HashSet<String>(markedSet.getKey()));
+			attributeValues.remove(new HashSet<>(markedSet.getKey()));
 		}
 		
 	}
 	
 	private static void combinePossibleRules() {
 		Set<ArrayList<String>> keySet = possibleRules.keySet();
-		ArrayList<ArrayList<String>> keyList = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<String>> keyList = new ArrayList<>();
 		keyList.addAll(keySet);
 		
 		for(int i = 0;i<possibleRules.size();i++){
 			for(int j = (i+1);j<possibleRules.size();j++){
-				HashSet<String> combinedKeys = new HashSet<String>(keyList.get(i));
-				combinedKeys.addAll(new HashSet<String>(keyList.get(j)));
+				HashSet<String> combinedKeys = new HashSet<>(keyList.get(i));
+				combinedKeys.addAll(new HashSet<>(keyList.get(j)));
 				
 				if(!checkSameGroup(combinedKeys)){
 					combineAttributeValues(combinedKeys);
@@ -971,7 +1068,7 @@ public class Kdd extends javax.swing.JFrame {
 	}
 	
 	private static void combineAttributeValues(HashSet<String> combinedKeys) {
-		HashSet<String> combinedValues = new HashSet<String>();
+		HashSet<String> combinedValues = new HashSet<>();
 			
 		for(Map.Entry<HashSet<String>, HashSet<String>> attributeValue : attributeValues.entrySet()){
 			if(combinedKeys.containsAll(attributeValue.getKey())){
@@ -987,7 +1084,7 @@ public class Kdd extends javax.swing.JFrame {
 	}
 
 	private static void removeRedundantValues() {
-		HashSet<String> mark = new HashSet<String>();
+		HashSet<String> mark = new HashSet<>();
 		
 		for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttributeValues.entrySet()){
 			for(Map.Entry<HashSet<String>, HashSet<String>> attributeValue : attributeValues.entrySet()){
@@ -1072,9 +1169,7 @@ public class Kdd extends javax.swing.JFrame {
                     continue;
                 }
             }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
+        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
             Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
         }
  }
@@ -1134,9 +1229,7 @@ public class Kdd extends javax.swing.JFrame {
 	}
 
     private static boolean checkValid(List<String> attributes,String userStableAttribute) {
-		if(attributes.contains(userStableAttribute))
-			return true;
-		else return false;
+        return attributes.contains(userStableAttribute);
 	}
 
 	private static void setDecisionAttribute(List<String> attributes) {
@@ -1155,7 +1248,7 @@ public class Kdd extends javax.swing.JFrame {
 
 	private static void removeDecisionValueFromAttributes(HashSet<String> decisionValues) {
 		for(String value : decisionValues){
-			HashSet<String> newHash = new HashSet<String>();
+			HashSet<String> newHash = new HashSet<>();
 			newHash.add(value);
 			Kdd.decisionValues.put(value, attributeValues.get(newHash));
 			attributeValues.remove(newHash);
@@ -1181,14 +1274,20 @@ public class Kdd extends javax.swing.JFrame {
               kdd.jLabelLoading.setText("Program Completed. Please see output in ActionRules.txt");
               kdd.jLabelLoading.setVisible(true);
 	}
+        public boolean checkFile(String fileName){
+            File file = new File(fileName);
+            System.out.println(fileName +":"+file.exists());
+            return (file.exists() && file.isFile());
+        }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton attrFileBrowseBtn;
     private java.awt.Label attrFileLabel;
     private javax.swing.JTextField attrFilePathTextField;
     private java.awt.Label attrValues;
-    private javax.swing.ButtonGroup buttonGroup1;
     private java.awt.TextField confidenceTxtField;
     private javax.swing.JButton dataBrowseBtn;
+    private javax.swing.JTextField dataFilePathTextField;
     private java.awt.TextField decisionValFrom;
     private java.awt.TextField decisionValTo;
     private javax.swing.JComboBox<String> delimiterComboBox;
@@ -1197,10 +1296,12 @@ public class Kdd extends javax.swing.JFrame {
     private javax.swing.JCheckBox hasHeaderCheckbox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelLoading;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1208,7 +1309,6 @@ public class Kdd extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextField2;
     private java.awt.Label label1;
     private java.awt.Label label10;
     private java.awt.Label label11;
