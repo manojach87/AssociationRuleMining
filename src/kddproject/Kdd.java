@@ -34,6 +34,9 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Popup;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 /**
@@ -629,20 +632,34 @@ public class Kdd extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (
-                ClassNotFoundException | 
-                InstantiationException | 
-                IllegalAccessException |
-                javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Kdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (
+//                ClassNotFoundException | 
+//                InstantiationException | 
+//                IllegalAccessException |
+//                javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Kdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+        
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+              } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+              } catch (InstantiationException e) {
+                e.printStackTrace();
+              } catch (IllegalAccessException e) {
+                e.printStackTrace();
+              } catch (UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+              }
+
+              //SwingUtilities.updateComponentTreeUI(frame);
         //</editor-fold>
         //</editor-fold>
         
@@ -659,19 +676,19 @@ public class Kdd extends javax.swing.JFrame {
     }
 
     //Reading attributes and data
-	private static void readAttributes() {
-        try {
-            input = new Scanner(new File(attributeFilePath));
-            
-            while (input.hasNextLine()) {
-                attributeNames.add(input.nextLine());
-            }
-            printList(attributeNames);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
-        }
-		
-	}
+//	private static void readAttributes() {
+//        try {
+//            input = new Scanner(new File(attributeFilePath));
+//            
+//            while (input.hasNextLine()) {
+//                attributeNames.add(input.nextLine());
+//            }
+//            printList(attributeNames);
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//		
+//	}
         
 	private static void readAttributes(String fileName, String delim) {
 		try {
