@@ -1129,7 +1129,7 @@ public class Kdd extends javax.swing.JFrame {
             String rule = "";
             int loop1Count = 0;
             System.out.println(stableAttributes.toString());
-            PrintWriter writer = new PrintWriter("ActionRules.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("ActionRules1.txt", "UTF-8");
             for (Map.Entry<ArrayList<String>, String> certainRules1 : certainRules
                     .entrySet()) {
                 loop1Count++;
