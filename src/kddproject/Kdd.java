@@ -1130,13 +1130,11 @@ public class Kdd extends javax.swing.JFrame {
             int loop1Count = 0;
             System.out.println(stableAttributes.toString());
             PrintWriter writer = new PrintWriter("ActionRules1.txt", "UTF-8");
-            for (Map.Entry<ArrayList<String>, String> certainRules1 : certainRules
-                    .entrySet()) {
+            for (Map.Entry<ArrayList<String>, String> certainRules1 : certainRules.entrySet()) {
                 loop1Count++;
                 if (certainRules1.getValue().equals(decisionFrom)) {
                     int loop2Count = 0;
-                    for (Map.Entry<ArrayList<String>, String> certainRules2 : certainRules
-                            .entrySet()) {
+                    for (Map.Entry<ArrayList<String>, String> certainRules2 : certainRules.entrySet()) {
                         System.out.println(certainRules2.getKey().equals(certainRules1.getKey()));
                         if ((!certainRules2.getValue().equals(decisionTo))) {
                             continue;
@@ -1222,80 +1220,79 @@ public class Kdd extends javax.swing.JFrame {
     }
 
     private  void setStableAttributes(List<String> attributes) {
-                        if(userStableAttribute.contains(",")){
-                            String[] keys = userStableAttribute.split(",");
-                                for(int i=0;i<keys.length;i++){
-                                if(checkValid(attributes,keys[i])){
-				stableAttributes.addAll(distinctAttributeValues.get(keys[i]));
-				attributes.remove(userStableAttribute);
-                                }else{
-                                    
-				printMessage("Invalid Attribute name...\n");
-                                }
-                                }
- //                           }
-                        }else{
-                            if(checkValid(attributes,userStableAttribute)){
-				stableAttributes.addAll(distinctAttributeValues.get(userStableAttribute));
-				attributes.remove(userStableAttribute);
-			}else{
-				printMessage("Invalid Attribute name...\n");
-			}
-                        }
+        if(userStableAttribute.contains(",")){
+            String[] keys = userStableAttribute.split(",");
+                for(int i=0;i<keys.length;i++){
+                    if(checkValid(attributes,keys[i])){
+                    stableAttributes.addAll(distinctAttributeValues.get(keys[i]));
+                    attributes.remove(userStableAttribute);
+                    }else{
+                        printMessage("Invalid Attribute name...\n");
+                    }
+                }
+//                           }
+        }else{
+            if(checkValid(attributes,userStableAttribute)){
+                stableAttributes.addAll(distinctAttributeValues.get(userStableAttribute));
+                attributes.remove(userStableAttribute);
+            }else{
+                    printMessage("Invalid Attribute name...\n");
+            }
+        }
 			
-	}
+    }
 
     private static boolean checkValid(List<String> attributes,String userStableAttribute) {
         return attributes.contains(userStableAttribute);
-	}
+    }
 
-	private static void setDecisionAttribute(List<String> attributes) {
-		if (checkValid(attributes,decisionAtribute)) {
-			attributes.remove(decisionAtribute);
-			flexibleAttributes = attributes;
-			
-			HashSet<String> decisionValues = distinctAttributeValues.get(decisionAtribute);
-			removeDecisionValueFromAttributes(decisionValues);
-			
-		}else{
-			printMessage("Invalid attrbibute.");
-		}
-		
-	}
+    private static void setDecisionAttribute(List<String> attributes) {
+        if (checkValid(attributes,decisionAtribute)) {
+            attributes.remove(decisionAtribute);
+            flexibleAttributes = attributes;
 
-	private static void removeDecisionValueFromAttributes(HashSet<String> decisionValues) {
-		for(String value : decisionValues){
-			HashSet<String> newHash = new HashSet<>();
-			newHash.add(value);
-			Kdd.decisionValues.put(value, attributeValues.get(newHash));
-			attributeValues.remove(newHash);
-		}
-	}
-        
-        public static void writeFile(String outputString) throws IOException {
-             kdd.jLabelLoading.setText("Writing to File");
-             kdd.jLabelLoading.setVisible(true);
-            try {
-			File file = new File("ActionRules.txt");
-			FileWriter fileWriter = new FileWriter(file);
-			// Wrapping FileWriter to BufferedWriter to improve the efficiency
-			BufferedWriter outStream = new BufferedWriter(fileWriter);
-			// Writing outputs to file
-			outStream.write(outputString);
-			// Making sure we close the BufferedWriter to avoid memory leaks.
-			outStream.flush();
-			outStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-              kdd.jLabelLoading.setText("Program Completed. Please see output in ActionRules.txt");
-              kdd.jLabelLoading.setVisible(true);
-	}
-        public boolean checkFile(String fileName){
-            File file = new File(fileName);
-            System.out.println(fileName +":"+file.exists());
-            return (file.exists() && file.isFile());
+            HashSet<String> decisionValues = distinctAttributeValues.get(decisionAtribute);
+            removeDecisionValueFromAttributes(decisionValues);
+
+        }else{
+                printMessage("Invalid attrbibute.");
         }
+		
+    }
+
+    private static void removeDecisionValueFromAttributes(HashSet<String> decisionValues) {
+        for(String value : decisionValues){
+            HashSet<String> newHash = new HashSet<>();
+            newHash.add(value);
+            Kdd.decisionValues.put(value, attributeValues.get(newHash));
+            attributeValues.remove(newHash);
+        }
+    }
+
+    public static void writeFile(String outputString) throws IOException {
+         kdd.jLabelLoading.setText("Writing to File");
+         kdd.jLabelLoading.setVisible(true);
+        try {
+                    File file = new File("ActionRules.txt");
+                    FileWriter fileWriter = new FileWriter(file);
+                    // Wrapping FileWriter to BufferedWriter to improve the efficiency
+                    BufferedWriter outStream = new BufferedWriter(fileWriter);
+                    // Writing outputs to file
+                    outStream.write(outputString);
+                    // Making sure we close the BufferedWriter to avoid memory leaks.
+                    outStream.flush();
+                    outStream.close();
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
+          kdd.jLabelLoading.setText("Program Completed. Please see output in ActionRules.txt");
+          kdd.jLabelLoading.setVisible(true);
+    }
+    public boolean checkFile(String fileName){
+        File file = new File(fileName);
+        System.out.println(fileName +":"+file.exists());
+        return (file.exists() && file.isFile());
+    }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton attrFileBrowseBtn;
