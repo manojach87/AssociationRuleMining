@@ -624,8 +624,8 @@ public class KddFrame extends javax.swing.JFrame {
                 Iterator iterator = value.entrySet().iterator();
                 while(iterator.hasNext()){
                     Map.Entry set = (Map.Entry)iterator.next();
-                    	int support = calculateSupportLERS((ArrayList<String>)set.getKey(),(String)set.getValue());
-			String confidence = calculateConfidenceLERS((ArrayList<String>)set.getKey(),(String)set.getValue());
+                    	int support = calculateLERSSupport((ArrayList<String>)set.getKey(),(String)set.getValue());
+			String confidence = calculateLERSConfidence((ArrayList<String>)set.getKey(),(String)set.getValue());
                         System.out.println(minConfidence+" minConfidence "+minSupport+" minSupport ");
                         sb.append(minConfidence+" minConfidence "+minSupport+" minSupport ");
                         sb.append(System.lineSeparator());
@@ -654,8 +654,8 @@ public class KddFrame extends javax.swing.JFrame {
                             Iterator<String> setIterator = ((HashSet<String>)set.getValue()).iterator();
                                         while(setIterator.hasNext()){
                                         String possibleValue = setIterator.next();
-                                        int support = calculateSupportLERS((ArrayList<String>)set.getKey(),possibleValue);
-					String confidence = calculateConfidenceLERS((ArrayList<String>)set.getKey(),possibleValue);
+                                        int support = calculateLERSSupport((ArrayList<String>)set.getKey(),possibleValue);
+					String confidence = calculateLERSConfidence((ArrayList<String>)set.getKey(),possibleValue);
 					
                                         if(Integer.parseInt(confidence) >= minConfidence && support >= minSupport){
                                         printMessage(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
@@ -680,7 +680,7 @@ public class KddFrame extends javax.swing.JFrame {
 		return count;
 	}
 	
-	private static int calculateSupportLERS(ArrayList<String> key, String value) {
+	private static int calculateLERSSupport(ArrayList<String> key, String value) {
 		ArrayList<String> tempList = new ArrayList<String>();
 		
 		for(String val : key){
@@ -695,10 +695,10 @@ public class KddFrame extends javax.swing.JFrame {
 	}
 
 
-	private static String calculateConfidenceLERS(ArrayList<String> key,
+	private static String calculateLERSConfidence(ArrayList<String> key,
 			String value) {
-		int num = calculateSupportLERS(key, value);
-		int den = calculateSupportLERS(key, "");
+		int num = calculateLERSSupport(key, value);
+		int den = calculateLERSSupport(key, "");
                 int confidence = 0;
                 if(den!=0){
                  confidence = (num * 100)/den;   
