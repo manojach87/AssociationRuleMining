@@ -7,9 +7,9 @@ Loop 1:--------------------------[C3] = [x1, x6]
 [B1] = [x1, x4]
 [C2] = [x3, x5]
 
-Certain Rules:80 minConfidence 3 minSupport 
-80 minConfidence 3 minSupport 
-80 minConfidence 3 minSupport 
+Certain Rules:20 minConfidence 3 minSupport 
+20 minConfidence 3 minSupport 
+20 minConfidence 3 minSupport 
 
 Possible Rules:
 
@@ -19,13 +19,13 @@ Loop 2:--------------------------[A1, B2] = [x2, x3, x6]
 [A1, C2] = [x3]
 [B2, C2] = [x3, x5]
 
-Certain Rules:80 minConfidence 3 minSupport 
-80 minConfidence 3 minSupport 
+Certain Rules:20 minConfidence 3 minSupport 
+20 minConfidence 3 minSupport 
 
 Possible Rules:
 
 Loop 3:--------------------------[A1, B2, C1] = [x2]
 [A1, B2, C2] = [x3]
 
-Certain Rules:80 minConfidence 3 minSupport 
-80 minConfidence 3 minSupport 
+Certain Rules:20 minConfidence 3 minSupport 
+20 minConfidence 3 minSupport 

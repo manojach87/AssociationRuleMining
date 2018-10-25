@@ -22,32 +22,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import kddproject.Kdd;
-import static kddproject.Kdd.attributeFilePath;
-import static kddproject.Kdd.attributeNames;
-import static kddproject.Kdd.certainRules;
-import static kddproject.Kdd.data;
-import static kddproject.Kdd.dataFilePath;
-import static kddproject.Kdd.decisionFrom;
-import static kddproject.Kdd.decisionTo;
-import static kddproject.Kdd.flexibleAttributes;
-import static kddproject.Kdd.kdd;
-import static kddproject.Kdd.possibleRules;
-import static kddproject.Kdd.stableAttributes;
-import static kddproject.Kdd.userStableAttribute;
-import static kddproject.Kdd.decisionAtribute;
-import static kddproject.Kdd.minimum_Confidence;
-import static kddproject.Kdd.minimum_Support;
-import static kddproject.Kdd.stringBuilder;
 
 /**
  *
