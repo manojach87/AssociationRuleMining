@@ -150,6 +150,7 @@ public class Kdd extends javax.swing.JFrame {
         decisionValToJCB = new javax.swing.JComboBox<>();
         panel1 = new java.awt.Panel();
         attrFileLabel = new java.awt.Label();
+        delimiterComboBox = new javax.swing.JComboBox<>();
         attrFilePathTextField = new javax.swing.JTextField();
         attrFileBrowseBtn = new javax.swing.JButton();
         label4 = new java.awt.Label();
@@ -157,7 +158,6 @@ public class Kdd extends javax.swing.JFrame {
         dataBrowseBtn = new javax.swing.JButton();
         submitBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        delimiterComboBox = new javax.swing.JComboBox<>();
         delimiterOtherText = new javax.swing.JTextField();
         hasHeaderCheckbox = new javax.swing.JCheckBox();
         jSeparator3 = new javax.swing.JSeparator();
@@ -175,9 +175,11 @@ public class Kdd extends javax.swing.JFrame {
         label1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         label1.setText("Files to process");
 
+        jPanel2.setToolTipText("Click Ctrl to select multiple Attributes");
         jPanel2.setEnabled(false);
 
         jListStableAttributesAvailable.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        jListStableAttributesAvailable.setToolTipText("Click Ctrl to select multiple Attributes");
         jListStableAttributesAvailable.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jListStableAttributesAvailableValueChanged(evt);
@@ -187,8 +189,9 @@ public class Kdd extends javax.swing.JFrame {
 
         label11.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         label11.setForeground(java.awt.Color.black);
-        label11.setText("Enter Comma separated Stable Attribute(s)");
+        label11.setText("Comma separated list of Selected Stable Attribute(s)");
 
+        stableAttrs.setEditable(false);
         stableAttrs.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
         stableAttrs.addTextListener(new java.awt.event.TextListener() {
             public void textValueChanged(java.awt.event.TextEvent evt) {
@@ -198,7 +201,7 @@ public class Kdd extends javax.swing.JFrame {
 
         label10.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         label10.setForeground(java.awt.Color.black);
-        label10.setText("Stable Attributes Available:");
+        label10.setText("Select Stable Attributes:");
 
         jButton1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jButton1.setText("Generate Action Rules");
@@ -226,7 +229,7 @@ public class Kdd extends javax.swing.JFrame {
                     .add(jPanel2Layout.createSequentialGroup()
                         .add(label10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 279, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 293, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(stableAttrs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 453, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(label11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 299, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jPanel2Layout.createSequentialGroup()
@@ -397,6 +400,13 @@ public class Kdd extends javax.swing.JFrame {
         attrFileLabel.setForeground(java.awt.Color.black);
         attrFileLabel.setText("Choose Attribute File");
 
+        delimiterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|", "Other" }));
+        delimiterComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delimiterComboBoxActionPerformed(evt);
+            }
+        });
+
         attrFilePathTextField.setEditable(false);
         attrFilePathTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -436,13 +446,6 @@ public class Kdd extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel1.setText("Delimiter");
-
-        delimiterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|", "Other" }));
-        delimiterComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                delimiterComboBoxActionPerformed(evt);
-            }
-        });
 
         delimiterOtherText.setText("Other");
 
@@ -599,6 +602,7 @@ public class Kdd extends javax.swing.JFrame {
           currentFilePath = selectedFile.getParent();
           attrFilePathTextField.setText(attributeFilePath);
           //readAttributes();
+          kdd.setVisible(true);
     }              
         
     }//GEN-LAST:event_attrFileBrowseBtnActionPerformed
@@ -614,6 +618,8 @@ public class Kdd extends javax.swing.JFrame {
           dataFilePathTextField.setText(dataFilePath);
           //readData();
           //readData(dataFilePath,delimiter,hasHeader);
+          
+          kdd.setVisible(true);
     }            
     }//GEN-LAST:event_dataBrowseBtnActionPerformed
 
