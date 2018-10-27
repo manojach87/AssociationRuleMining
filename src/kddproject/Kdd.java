@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,6 +45,7 @@ public class Kdd extends javax.swing.JFrame {
     public static String attributeFilePath="";
     public static String dataFilePath="";
     public static String currentFilePath="";
+    public static String outFilePath=".";
     public static List<String> attributeNames = new ArrayList<String>();
     public static List<String> stableAttributes = new ArrayList<String>();
     public static List<String> flexibleAttributes = new ArrayList<String>();
@@ -123,7 +125,6 @@ public class Kdd extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0));
         jLabelLoading = new javax.swing.JLabel();
-        label1 = new java.awt.Label();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
@@ -134,6 +135,9 @@ public class Kdd extends javax.swing.JFrame {
         label10 = new java.awt.Label();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        outFileBrowseBtn1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         label2 = new java.awt.Label();
         confidenceTxtField = new java.awt.TextField();
@@ -161,6 +165,8 @@ public class Kdd extends javax.swing.JFrame {
         delimiterOtherText = new javax.swing.JTextField();
         hasHeaderCheckbox = new javax.swing.JCheckBox();
         jSeparator3 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kdd Project - Group 1: Action Rules ");
@@ -171,9 +177,6 @@ public class Kdd extends javax.swing.JFrame {
         jLabelLoading.setForeground(new java.awt.Color(0, 204, 0));
         jLabelLoading.setText("Loading...");
         jLabelLoading.setToolTipText("");
-
-        label1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label1.setText("Files to process");
 
         jPanel2.setToolTipText("Click Ctrl to select multiple Attributes");
         jPanel2.setEnabled(false);
@@ -219,41 +222,76 @@ public class Kdd extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jTextField1.setText(".");
+        jTextField1.setMaximumSize(new java.awt.Dimension(6, 21));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel2.setText("Output File Location: ");
+
+        outFileBrowseBtn1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        outFileBrowseBtn1.setLabel("...");
+        outFileBrowseBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outFileBrowseBtn1ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .add(10, 10, 10)
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .add(label10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 293, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(stableAttrs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 453, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(label11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 299, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jPanel2Layout.createSequentialGroup()
                         .add(jButton3)
-                        .add(233, 233, 233)
-                        .add(jButton1))))
+                        .add(203, 203, 203)
+                        .add(jButton1))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(label10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 24, Short.MAX_VALUE)
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(label11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 299, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(stableAttrs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 270, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jPanel2Layout.createSequentialGroup()
+                                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 233, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(outFileBrowseBtn1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
+            .add(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel2)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
-                .add(11, 11, 11)
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(9, 9, 9)
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(label10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(label11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .add(29, 29, 29)
-                        .add(stableAttrs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(label11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(10, 10, 10)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(stableAttrs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel2)
+                    .add(outFileBrowseBtn1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(1, 1, 1)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jButton3)
-                    .add(jButton1)))
+                    .add(jButton1))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         label2.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
@@ -272,10 +310,10 @@ public class Kdd extends javax.swing.JFrame {
             }
         });
 
-        label6.setAlignment(java.awt.Label.RIGHT);
-        label6.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        label6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         label6.setForeground(java.awt.Color.black);
-        label6.setText("Min Confidence");
+        label6.setMaximumSize(new java.awt.Dimension(99, 18));
+        label6.setText("Min Confidence (%)");
 
         label9.setAlignment(java.awt.Label.RIGHT);
         label9.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -284,6 +322,7 @@ public class Kdd extends javax.swing.JFrame {
 
         label5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         label5.setForeground(java.awt.Color.black);
+        label5.setMaximumSize(new java.awt.Dimension(64, 18));
         label5.setText("Min Support:");
 
         supportTxtField.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
@@ -293,7 +332,7 @@ public class Kdd extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setFont(new java.awt.Font("Comic Sans MS", 3, 13)); // NOI18N
+        jComboBox1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -311,7 +350,7 @@ public class Kdd extends javax.swing.JFrame {
 
         label7.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         label7.setForeground(java.awt.Color.black);
-        label7.setText("Select Decision Attribute");
+        label7.setText("Decision Attribute");
 
         label8.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         label8.setForeground(java.awt.Color.black);
@@ -320,14 +359,16 @@ public class Kdd extends javax.swing.JFrame {
         attrValues.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         attrValues.setForeground(java.awt.Color.black);
 
-        decisionValFromJCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        decisionValFromJCB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        decisionValFromJCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I-1", "I-2", "I-3", "I-4" }));
         decisionValFromJCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 decisionValFromJCBActionPerformed(evt);
             }
         });
 
-        decisionValToJCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        decisionValToJCB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        decisionValToJCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I-1", "I-2", "I-3", "I-4" }));
         decisionValToJCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 decisionValToJCBActionPerformed(evt);
@@ -339,61 +380,61 @@ public class Kdd extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(label5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 90, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(label7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(label8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(10, 10, 10)
+                .add(1, 1, 1)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .add(label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(supportTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 75, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(decisionValFromJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(label5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(label6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(attrValues, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(confidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(label8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(supportTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(label7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jComboBox1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(jPanel1Layout.createSequentialGroup()
-                                .add(label6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 47, Short.MAX_VALUE)
-                                .add(confidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 74, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(label9, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                    .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                    .add(decisionValToJCB, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, attrValues, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, jComboBox1, 0, 292, Short.MAX_VALUE)))
+                                .add(decisionValFromJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(2, 2, 2)
+                                .add(label9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(decisionValToJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, confidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, supportTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, attrValues, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(7, 7, 7)
+                .add(3, 3, 3)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(11, 11, 11)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, supportTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(2, 2, 2)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionValToJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, label9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionValFromJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jButton2)
-                .addContainerGap())
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, confidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jButton2)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, attrValues, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         attrFileLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
@@ -408,6 +449,7 @@ public class Kdd extends javax.swing.JFrame {
         });
 
         attrFilePathTextField.setEditable(false);
+        attrFilePathTextField.setMaximumSize(new java.awt.Dimension(6, 20));
         attrFilePathTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 attrFilePathTextFieldActionPerformed(evt);
@@ -427,6 +469,7 @@ public class Kdd extends javax.swing.JFrame {
         label4.setText("Choose Data File ");
 
         dataFilePathTextField.setEditable(false);
+        dataFilePathTextField.setMaximumSize(new java.awt.Dimension(6, 20));
 
         dataBrowseBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         dataBrowseBtn.setText("...");
@@ -449,7 +492,7 @@ public class Kdd extends javax.swing.JFrame {
 
         delimiterOtherText.setText("Other");
 
-        hasHeaderCheckbox.setText("Check if first row in data file contains headers.");
+        hasHeaderCheckbox.setText("Data File contains headers.");
         hasHeaderCheckbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hasHeaderCheckboxActionPerformed(evt);
@@ -461,35 +504,32 @@ public class Kdd extends javax.swing.JFrame {
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panel1Layout.createSequentialGroup()
-                .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(2, 2, 2)
+                .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(submitBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(panel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 84, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(attrFileLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(label4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .add(31, 31, 31)
                         .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(attrFileLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(label4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .add(panel1Layout.createSequentialGroup()
-                                .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(hasHeaderCheckbox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(panel1Layout.createSequentialGroup()
-                                        .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(attrFilePathTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 266, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                            .add(dataFilePathTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 266, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .add(0, 0, Short.MAX_VALUE)))
+                                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 48, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, attrFileBrowseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, dataBrowseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                .add(delimiterComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(18, 18, 18)
+                        .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(panel1Layout.createSequentialGroup()
-                                .add(delimiterComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 95, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(83, 83, 83)
-                                .add(delimiterOtherText))))
-                    .add(panel1Layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(submitBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                .add(delimiterOtherText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 30, Short.MAX_VALUE)
+                                .add(hasHeaderCheckbox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 166, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(attrFilePathTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                                .add(dataFilePathTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(dataBrowseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(attrFileBrowseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -500,23 +540,27 @@ public class Kdd extends javax.swing.JFrame {
                         .add(dataFilePathTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(dataBrowseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, label4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(9, 9, 9)
-                .add(hasHeaderCheckbox)
-                .add(7, 7, 7)
+                .add(10, 10, 10)
+                .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(delimiterComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(hasHeaderCheckbox)
+                    .add(delimiterOtherText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(attrFilePathTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(attrFileBrowseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, attrFileLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(9, 9, 9)
-                .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                        .add(delimiterComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(delimiterOtherText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel1))
-                .add(10, 10, 10)
-                .add(submitBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(submitBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -525,25 +569,20 @@ public class Kdd extends javax.swing.JFrame {
             .add(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1)
+                    .add(jSeparator2)
+                    .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel3Layout.createSequentialGroup()
-                        .add(3, 3, 3)
-                        .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(label1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jPanel3Layout.createSequentialGroup()
-                                .add(383, 383, 383)
-                                .add(jLabelLoading)))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(jLabelLoading)
+                        .add(202, 202, 202)
+                        .add(jSeparator3))
                     .add(jPanel3Layout.createSequentialGroup()
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1)
-                            .add(jSeparator2)
-                            .add(jSeparator3)
-                            .add(jPanel3Layout.createSequentialGroup()
-                                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(0, 0, Short.MAX_VALUE))
-                            .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .add(panel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
+                            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(panel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 432, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -552,22 +591,26 @@ public class Kdd extends javax.swing.JFrame {
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(filler1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(label1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(6, 6, 6)
-                        .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, 0)
+                        .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSeparator3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jLabelLoading)))
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 129, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(jSeparator3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(25, 25, 25))
+                            .add(jPanel3Layout.createSequentialGroup()
+                                .add(jLabelLoading)
+                                .add(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -578,14 +621,14 @@ public class Kdd extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 463, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 463, Short.MAX_VALUE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(layout.createSequentialGroup()
+                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 554, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 11, Short.MAX_VALUE))
         );
 
         pack();
@@ -633,15 +676,22 @@ public class Kdd extends javax.swing.JFrame {
         boolean filesExist = false;
         if(hasHeader){
             filesExist = checkFile(dataFilePath) ;
+            printMessage("Data File                : "+dataFilePath);
         }
-        else filesExist = checkFile(attributeFilePath) && checkFile(dataFilePath) ;
-
+        else {
+            filesExist = checkFile(attributeFilePath) && checkFile(dataFilePath) ;
+            printMessage("Data File                : "+dataFilePath);
+            printMessage("AttributeFilePath        : "+attributeFilePath);
+        }
         if (filesExist)
         {
             for( int i=0; i<jPanel1.getComponents().length; i++)
             {
                 jPanel1.getComponents()[i].setEnabled(true);
             }
+            printMessage("Reading Data File Now..");
+            printMessage("Delimiter                : "+delimiter);
+            printMessage("Data File Has Header?    : "+hasHeader);
             readData(dataFilePath,delimiter,hasHeader);
             attrValues.setText(attributeNames.toString());
             attributeNames.forEach((attr) -> {
@@ -659,18 +709,11 @@ public class Kdd extends javax.swing.JFrame {
         // TODO add your handling code here:
         decisionAtribute = jComboBox1.getSelectedItem().toString();
         //label8.setText("Decision("+decisionAtribute+") Value From");
-        System.out.println(distinctAttributeValues.get(decisionAtribute).toArray());
-        
+        //System.out.println(distinctAttributeValues.get(decisionAtribute).toArray());
+
         Set<String> x = distinctAttributeValues.get(decisionAtribute);
-        
-        
         decisionValFromJCB.setModel(new javax.swing.DefaultComboBoxModel<>(x.toArray(new String[x.size()])));
         decisionValToJCB.setModel(new javax.swing.DefaultComboBoxModel<>(x.toArray(new String[x.size()])));
-//        decisionValFromJCB.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                delimiterComboBoxActionPerformed(evt);
-//            }
-//        });
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -678,19 +721,34 @@ public class Kdd extends javax.swing.JFrame {
         
         decisionFrom = decisionValFromJCB.getSelectedItem().toString();
         decisionTo = decisionValToJCB.getSelectedItem().toString();
-        System.err.println(decisionFrom);
         
-        for( int i=0; i<jPanel2.getComponents().length; i++)
-        {
-            jPanel2.getComponents()[i].setEnabled(true);
+        if(decisionFrom.equals(decisionTo)){
+            jOptionPane1.showMessageDialog(null,"Decision From and Decision To Cannot Be the same?","Action Rule Decisions",JOptionPane.ERROR_MESSAGE);
         }
-        setDecisionAttribute(attributeNames); 
-        String[] flexArray = new String[flexibleAttributes.size()];
-        for(int i=0;i<flexibleAttributes.size();i++){
-            flexArray[i] = flexibleAttributes.get(i);
+        else{
+            //System.out.println(decisionFrom);
+            printMessage("Minimum Support          : "+minimum_Support);
+            printMessage("Minimum Confidence       : "+minimum_Confidence);
+            
+            printMessage("Decision Attribute       : "+decisionAtribute);
+            printMessage("Decision From            : "+decisionFrom);
+            printMessage("Decision To              : "+decisionTo);
+            
+            
+            //printMessage("Stable Attributes : "+stableAttrs.getText());
+            
+            for( int i=0; i<jPanel2.getComponents().length; i++)
+            {
+                jPanel2.getComponents()[i].setEnabled(true);
+            }
+            setDecisionAttribute(attributeNames); 
+            String[] flexArray = new String[flexibleAttributes.size()];
+            for(int i=0;i<flexibleAttributes.size();i++){
+                flexArray[i] = flexibleAttributes.get(i);
+            }
+                jListStableAttributesAvailable.setListData(flexArray);
+            jScrollPane1.setViewportView(jListStableAttributesAvailable);
         }
-            jListStableAttributesAvailable.setListData(flexArray);
-        jScrollPane1.setViewportView(jListStableAttributesAvailable);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -705,7 +763,8 @@ public class Kdd extends javax.swing.JFrame {
         
         //System.out.println(jListStableAttributesAvailable.getSelectedValuesList());
         
-        System.out.println("Min Confidence = "+minimum_Confidence+", Min Support = "+minimum_Support);
+        //System.out.println("Min Confidence = "+minimum_Confidence+", Min Support = "+minimum_Support);
+        printMessage("Min Confidence = "+minimum_Confidence+", Min Support = "+minimum_Support);
         findRules();
         generateActionRules();
         
@@ -746,7 +805,7 @@ public class Kdd extends javax.swing.JFrame {
 
     private void hasHeaderCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasHeaderCheckboxActionPerformed
         // TODO add your handling code here:
-        System.out.println(hasHeaderCheckbox.isSelected());
+        printMessage("Data File has headers?  " + hasHeaderCheckbox.isSelected());
         hasHeader=hasHeaderCheckbox.isSelected();
         attrFileBrowseBtn    .setEnabled(!hasHeader);
         attrFileLabel        .setEnabled(!hasHeader);
@@ -764,13 +823,13 @@ public class Kdd extends javax.swing.JFrame {
     private void decisionValFromJCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decisionValFromJCBActionPerformed
         // TODO add your handling code here:
         decisionFrom = decisionValFromJCB.getSelectedItem().toString();
-        System.out.println(decisionFrom);
+        //printMessage("Decision From : "+decisionFrom);
     }//GEN-LAST:event_decisionValFromJCBActionPerformed
 
     private void decisionValToJCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decisionValToJCBActionPerformed
         // TODO add your handling code here:
         decisionTo = decisionValToJCB.getSelectedItem().toString();
-        System.out.println(decisionTo);
+        //printMessage("Decision From : "+decisionTo);
     }//GEN-LAST:event_decisionValToJCBActionPerformed
 
     private void jListStableAttributesAvailableValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListStableAttributesAvailableValueChanged
@@ -778,10 +837,31 @@ public class Kdd extends javax.swing.JFrame {
         List<String> s = jListStableAttributesAvailable.getSelectedValuesList();
         //userStableAttribute = s.toString().replaceAll("[{}]","");
         //System.out.println(userStableAttribute);
-        System.out.println(stableAttrs);
+        //System.out.println(stableAttrs);
         stableAttrs.setText(s.toString().replace("[","").replace("]","").replace(" ",""));
-        System.out.println(stableAttrs.getText());
+        //printMessage("Stable Attributes : "+stableAttrs.getText());
     }//GEN-LAST:event_jListStableAttributesAvailableValueChanged
+
+    private void outFileBrowseBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outFileBrowseBtn1ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser(); 
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Choose Output File Location");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //
+        // disable the "All files" option.
+        //
+        chooser.setAcceptAllFileFilterUsed(false);
+        //    
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+          jTextField1.setText(chooser.getSelectedFile().toString());
+          outFilePath = jTextField1.getText();
+        }        
+    }//GEN-LAST:event_outFileBrowseBtn1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -834,6 +914,7 @@ public class Kdd extends javax.swing.JFrame {
             kdd.setVisible(true);
             kdd.getContentPane().setBackground(Color.WHITE);
             kdd.jLabelLoading.setVisible(false);
+            printMessage(new Date());
         });
     }
 
@@ -854,7 +935,7 @@ public class Kdd extends javax.swing.JFrame {
         
 	private static void readAttributes(String fileName, String delim) {
 		try {
-                    System.out.println(fileName);
+                        //System.out.println(fileName);
 			Scanner headerScan = new Scanner(new File(fileName));
 			//input.hasNext();
 			//attributeNames.clear();
@@ -893,7 +974,6 @@ public class Kdd extends javax.swing.JFrame {
 			while(input.hasNextLine()){
 				String[] lineData = input.nextLine().split(delim);
 				String key;
-				
 				lineNo++;
 				ArrayList<String> tempList = new ArrayList<>();
 				HashSet<String> set;
@@ -961,31 +1041,39 @@ public class Kdd extends javax.swing.JFrame {
 		values.put(key, tempSet);
 	}
         //Printing String, List and Map
-	public static void printMessage(String content){
+	public static void printMessage(Object content){
 		System.out.println(content);
+                if(kdd.jTextArea1.getText().length()>4000)
+                    kdd.jTextArea1.setText("");
+                kdd.jTextArea1.append(content.toString()+"\n");
 	}
         public static void printList(List<String> list){
 		Iterator iterate = list.iterator();
 		
-		while(iterate.hasNext()){
-			printMessage(iterate.next().toString());
-		}
+//		while(iterate.hasNext()){
+//			printMessage(iterate.next().toString());
+//		}
 	}
 	
 	private static void printAttributeMap(Map<HashSet<String>, HashSet<String>> values) {
 		for(Map.Entry<HashSet<String>, HashSet<String>> set : values.entrySet()){
-			printMessage(set.getKey().toString() + " = " + set.getValue());
-                        stringBuilder.append(set.getKey().toString())
-                                     .append(" = ")
-                                     .append(set.getValue())
-                                     .append(System.lineSeparator());
+			
+                        if(!(set.getValue().isEmpty())){
+                            printMessage(set.getKey().toString() + " = " + set.getValue());
+                            stringBuilder.append(set.getKey().toString())
+                                         .append(" = ")
+                                         .append(set.getValue())
+                                         .append(System.lineSeparator());
+                        }
 		}
 	}
 	
 	private static void printCertainRulesMap(Map<ArrayList<String>, String> value) {
           kdd.jLabelLoading.setText("Generating Certain Rules");
+          printMessage("Generating Certain Rules..");
+
           kdd.jLabelLoading.setVisible(true);
-            printMessage("\nCertain Rules:");
+            //printMessage("\nCertain Rules:");
                 stringBuilder.append(System.lineSeparator())
                              .append("Certain Rules:");
                 Iterator iterator = value.entrySet().iterator();
@@ -994,14 +1082,15 @@ public class Kdd extends javax.swing.JFrame {
                     	int support = calculateSupportLERS((ArrayList<String>)set.getKey(),(String)set.getValue());
 			String confidence = calculateConfidenceLERS((ArrayList<String>)set.getKey(),(String)set.getValue());
                         //System.out.println(minimum_Confidence+" minConfidence "+minimum_Support+" minSupport ");
-                        stringBuilder
-                                    .append(minimum_Confidence)
-                                    .append(" minConfidence ")
-                                    .append(minimum_Support)
-                                    .append(" minSupport ")
-                                    .append(System.lineSeparator());
+//                        stringBuilder
+//                                    .append(minimum_Confidence)
+//                                    .append(" minConfidence ")
+//                                    .append(minimum_Support)
+//                                    .append(" minSupport ")
+//                                    .append(System.lineSeparator());
 			if(Integer.parseInt(confidence) >= minimum_Confidence && support >= minimum_Support){
                             printMessage(set.getKey().toString() + " -> " + set.getValue() + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
+                            //System.out.println(set.getKey().toString() + " -> " + set.getValue() + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
                             stringBuilder
                                     .append(set.getKey().toString())
                                     .append(" -> ").append(set.getValue())
@@ -1019,9 +1108,10 @@ public class Kdd extends javax.swing.JFrame {
 	
 	private static void printPossibleRulesMap(Map<ArrayList<String>, HashSet<String>> value) {
 		 kdd.jLabelLoading.setText("Generating Possible Rules");
+		 printMessage("\nGenerating Possible Rules..");
                  kdd.jLabelLoading.setVisible(true);
 		if(!value.isEmpty()){
-			printMessage("\nPossible Rules:");
+			//printMessage("\nPossible Rules:");
                         stringBuilder
                                     .append(System.lineSeparator())
                                     .append("Possible Rules:")
@@ -1036,7 +1126,8 @@ public class Kdd extends javax.swing.JFrame {
 					String confidence = calculateConfidenceLERS((ArrayList<String>)set.getKey(),possibleValue);
 					
                                         if(Integer.parseInt(confidence) >= minimum_Confidence && support >= minimum_Support){
-                                        printMessage(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
+                                        //printMessage(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
+                                        System.out.println(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
                                         stringBuilder.append(set.getKey().toString())
                                                 .append(" -> ").append(possibleValue)
                                                 .append("[Support:-").append(support)
@@ -1228,15 +1319,15 @@ public class Kdd extends javax.swing.JFrame {
             String rule = "";
             int loop1Count = 0;
             System.out.println(stableAttributes.toString());
-            PrintWriter writer = new PrintWriter("ActionRules1.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter( new File(outFilePath,"ActionRules1.txt"), "UTF-8");
             //System.err.println(certainRules);
-            System.err.println(certainRules.entrySet());
+            //System.err.println(certainRules.entrySet());
             for (Map.Entry<ArrayList<String>, String> certainRules1 : certainRules.entrySet()) {
                 loop1Count++;
                 if (certainRules1.getValue().equals(decisionFrom)) {
                     int loop2Count = 0;
                     for (Map.Entry<ArrayList<String>, String> certainRules2 : certainRules.entrySet()) {
-                        System.out.println(certainRules2.getKey().equals(certainRules1.getKey()));
+                        //System.out.println(certainRules2.getKey().equals(certainRules1.getKey()));
                         if ((!certainRules2.getValue().equals(decisionTo))) {
                             continue;
                         } else {
@@ -1275,7 +1366,8 @@ public class Kdd extends javax.swing.JFrame {
                                     writer.println("The first line");
                                     writer.println("The second line");
                                     writer.println(rule + " ==> " +decisionFrom + "->" + decisionTo);
-                                System.out.println(rule + " ==> " +decisionFrom + "->" + decisionTo);
+                                    //System.out.println(rule + " ==> " +decisionFrom + "->" + decisionTo);
+                                    printMessage(rule + " ==> " +decisionFrom + "->" + decisionTo);
                             }
                             rule = "";
                         }
@@ -1374,7 +1466,7 @@ public class Kdd extends javax.swing.JFrame {
          kdd.jLabelLoading.setText("Writing to File");
          kdd.jLabelLoading.setVisible(true);
         try {
-                    File file = new File("ActionRules.txt");
+                    File file = new File(outFilePath, "ActionRules.txt");
                     FileWriter fileWriter = new FileWriter(file);
                     // Wrapping FileWriter to BufferedWriter to improve the efficiency
                     BufferedWriter outStream = new BufferedWriter(fileWriter);
@@ -1391,9 +1483,14 @@ public class Kdd extends javax.swing.JFrame {
     }
     public boolean checkFile(String fileName){
         File file = new File(fileName);
-        System.out.println(fileName +":"+file.exists());
+        //System.out.println(fileName +":"+file.exists());
+        printMessage(fileName +":"+file.exists());
         return (file.exists() && file.isFile());
     }
+//    public static void printText(Object message){
+//        kdd.jTextArea1.append(message.toString()+"\n");
+//        System.out.println(message);
+//    }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton attrFileBrowseBtn;
@@ -1414,6 +1511,7 @@ public class Kdd extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelLoading;
     private javax.swing.JList<String> jListStableAttributesAvailable;
     private javax.swing.JOptionPane jOptionPane1;
@@ -1421,10 +1519,12 @@ public class Kdd extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private java.awt.Label label1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
     private java.awt.Label label10;
     private java.awt.Label label11;
     private java.awt.Label label2;
@@ -1434,6 +1534,7 @@ public class Kdd extends javax.swing.JFrame {
     private java.awt.Label label7;
     private java.awt.Label label8;
     private java.awt.Label label9;
+    private javax.swing.JButton outFileBrowseBtn1;
     private java.awt.Panel panel1;
     private java.awt.TextField stableAttrs;
     private javax.swing.JButton submitBtn;
