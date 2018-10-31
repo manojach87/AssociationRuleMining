@@ -1,0 +1,1 @@
+java -jar KDD.jar -Xmx1024m
