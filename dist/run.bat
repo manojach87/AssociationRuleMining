@@ -1,1 +1,1 @@
-java -jar KDD.jar -Xmx1024m
+java -jar KDD.jar -Xmx1024m -XX:+PrintClassHistogram
