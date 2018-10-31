@@ -144,42 +144,42 @@ public class Kdd extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         lowerPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jListStableAttributesAvailable = new javax.swing.JList<>();
-        label11 = new java.awt.Label();
-        stableAttrs = new java.awt.TextField();
-        label10 = new java.awt.Label();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        stableAttributeLabel1 = new java.awt.Label();
+        stableAttributeLabel = new java.awt.Label();
+        stableAttributesAvailableScrollPane = new javax.swing.JScrollPane();
+        stableAttributeAvailableList = new javax.swing.JList<>();
+        stableAttributeText = new java.awt.TextField();
+        outputLocationLabel = new javax.swing.JLabel();
+        outputLocationText = new javax.swing.JTextField();
         outFileBrowseBtn1 = new javax.swing.JButton();
+        resetButton = new javax.swing.JButton();
+        generateActionRulesButton = new javax.swing.JButton();
         midPanel = new javax.swing.JPanel();
-        label2 = new java.awt.Label();
-        confidenceTxtField = new java.awt.TextField();
-        label6 = new java.awt.Label();
-        label9 = new java.awt.Label();
-        label5 = new java.awt.Label();
-        supportTxtField = new java.awt.TextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        label7 = new java.awt.Label();
-        label8 = new java.awt.Label();
+        minSupportLabel = new java.awt.Label();
+        minSupportText = new java.awt.TextField();
+        decisionAttributeLabel = new java.awt.Label();
+        decisionAttributeComboBox = new javax.swing.JComboBox<>();
+        minConfidenceLabel = new java.awt.Label();
+        minConfidenceTxtField = new java.awt.TextField();
+        decisionAtributeFromLabel = new java.awt.Label();
+        decisionValFromComboBox = new javax.swing.JComboBox<>();
+        decisionAtributeToLabel = new java.awt.Label();
+        decisionValToComboBox = new javax.swing.JComboBox<>();
+        availableAttributesLabel = new java.awt.Label();
         attrValues = new java.awt.Label();
-        decisionValFromJCB = new javax.swing.JComboBox<>();
-        decisionValToJCB = new javax.swing.JComboBox<>();
-        topPanel = new java.awt.Panel();
-        attrFileLabel = new java.awt.Label();
-        delimiterComboBox = new javax.swing.JComboBox<>();
-        attrFilePathTextField = new javax.swing.JTextField();
-        attrFileBrowseBtn = new javax.swing.JButton();
-        label4 = new java.awt.Label();
+        getAttributesButton = new javax.swing.JButton();
+        topPanel = new javax.swing.JPanel();
+        dataFileLabel = new java.awt.Label();
         dataFilePathTextField = new javax.swing.JTextField();
         dataBrowseBtn = new javax.swing.JButton();
-        submitBtn = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        delimiterLabel = new javax.swing.JLabel();
+        delimiterComboBox = new javax.swing.JComboBox<>();
         delimiterOtherText = new javax.swing.JTextField();
         hasHeaderCheckbox = new javax.swing.JCheckBox();
+        attrFileLabel = new java.awt.Label();
+        attrFilePathTextField = new javax.swing.JTextField();
+        attrFileBrowseBtn = new javax.swing.JButton();
+        submitBtn = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -197,64 +197,64 @@ public class Kdd extends javax.swing.JFrame {
         lowerPanel.setToolTipText("Click Ctrl to select multiple Attributes");
         lowerPanel.setEnabled(false);
 
-        jListStableAttributesAvailable.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        jListStableAttributesAvailable.setToolTipText("Click Ctrl to select multiple Attributes");
-        jListStableAttributesAvailable.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        stableAttributeLabel1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        stableAttributeLabel1.setForeground(java.awt.Color.black);
+        stableAttributeLabel1.setText("Select Stable Attributes:");
+
+        stableAttributeLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        stableAttributeLabel.setForeground(java.awt.Color.black);
+        stableAttributeLabel.setText("Comma separated list of Selected Stable Attribute(s)");
+
+        stableAttributeAvailableList.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        stableAttributeAvailableList.setToolTipText("Click Ctrl to select multiple Attributes");
+        stableAttributeAvailableList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jListStableAttributesAvailableValueChanged(evt);
+                stableAttributeAvailableListValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(jListStableAttributesAvailable);
+        stableAttributesAvailableScrollPane.setViewportView(stableAttributeAvailableList);
 
-        label11.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label11.setForeground(java.awt.Color.black);
-        label11.setText("Comma separated list of Selected Stable Attribute(s)");
-
-        stableAttrs.setEditable(false);
-        stableAttrs.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
-        stableAttrs.addTextListener(new java.awt.event.TextListener() {
+        stableAttributeText.setEditable(false);
+        stableAttributeText.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
+        stableAttributeText.addTextListener(new java.awt.event.TextListener() {
             public void textValueChanged(java.awt.event.TextEvent evt) {
-                stableAttrsTextValueChanged(evt);
+                stableAttributeTextTextValueChanged(evt);
             }
         });
 
-        label10.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label10.setForeground(java.awt.Color.black);
-        label10.setText("Select Stable Attributes:");
+        outputLocationLabel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        outputLocationLabel.setText("Output File Location: ");
 
-        jButton1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        jButton1.setText("Generate Action Rules");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        outputLocationText.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        outputLocationText.setText(".");
+        outputLocationText.setMaximumSize(new java.awt.Dimension(6, 21));
+        outputLocationText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                outputLocationTextActionPerformed(evt);
             }
         });
-
-        jButton3.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        jButton3.setText("Reset");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jTextField1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTextField1.setText(".");
-        jTextField1.setMaximumSize(new java.awt.Dimension(6, 21));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Output File Location: ");
 
         outFileBrowseBtn1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         outFileBrowseBtn1.setLabel("...");
         outFileBrowseBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 outFileBrowseBtn1ActionPerformed(evt);
+            }
+        });
+
+        resetButton.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        resetButton.setText("Reset");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
+
+        generateActionRulesButton.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        generateActionRulesButton.setText("Generate Action Rules");
+        generateActionRulesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateActionRulesButtonActionPerformed(evt);
             }
         });
 
@@ -268,24 +268,24 @@ public class Kdd extends javax.swing.JFrame {
                         .add(10, 10, 10)
                         .add(lowerPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(lowerPanelLayout.createSequentialGroup()
-                                .add(jButton3)
+                                .add(resetButton)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(jButton1))
+                                .add(generateActionRulesButton))
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, lowerPanelLayout.createSequentialGroup()
                                 .add(lowerPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(label10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(stableAttributeLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(stableAttributesAvailableScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                 .add(24, 24, 24)
                                 .add(lowerPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                     .add(org.jdesktop.layout.GroupLayout.TRAILING, lowerPanelLayout.createSequentialGroup()
-                                        .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .add(outputLocationText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                                         .add(outFileBrowseBtn1))
-                                    .add(stableAttrs, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label11, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)))))
+                                    .add(stableAttributeText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, stableAttributeLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)))))
                     .add(lowerPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jLabel2)))
+                        .add(outputLocationLabel)))
                 .addContainerGap())
         );
         lowerPanelLayout.setVerticalGroup(
@@ -293,102 +293,102 @@ public class Kdd extends javax.swing.JFrame {
             .add(lowerPanelLayout.createSequentialGroup()
                 .add(9, 9, 9)
                 .add(lowerPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(label10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(label11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(stableAttributeLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(stableAttributeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lowerPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(stableAttrs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(stableAttributesAvailableScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(stableAttributeText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lowerPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel2)
+                    .add(outputLocationText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(outputLocationLabel)
                     .add(outFileBrowseBtn1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(1, 1, 1)
                 .add(lowerPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jButton3)
-                    .add(jButton1))
+                    .add(resetButton)
+                    .add(generateActionRulesButton))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        label2.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label2.setForeground(java.awt.Color.black);
-        label2.setText("Available Attributes:");
+        minSupportLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        minSupportLabel.setForeground(java.awt.Color.black);
+        minSupportLabel.setMaximumSize(new java.awt.Dimension(64, 18));
+        minSupportLabel.setText("Min Support:");
 
-        confidenceTxtField.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
-        confidenceTxtField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confidenceTxtFieldActionPerformed(evt);
-            }
-        });
-        confidenceTxtField.addTextListener(new java.awt.event.TextListener() {
+        minSupportText.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
+        minSupportText.addTextListener(new java.awt.event.TextListener() {
             public void textValueChanged(java.awt.event.TextEvent evt) {
-                confidenceTxtFieldTextValueChanged(evt);
+                minSupportTextTextValueChanged(evt);
             }
         });
 
-        label6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        label6.setForeground(java.awt.Color.black);
-        label6.setMaximumSize(new java.awt.Dimension(99, 18));
-        label6.setText("Min Confidence (%)");
+        decisionAttributeLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        decisionAttributeLabel.setForeground(java.awt.Color.black);
+        decisionAttributeLabel.setText("Decision Attribute");
 
-        label9.setAlignment(java.awt.Label.RIGHT);
-        label9.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        label9.setForeground(java.awt.Color.black);
-        label9.setText("To");
+        decisionAttributeComboBox.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        decisionAttributeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                decisionAttributeComboBoxActionPerformed(evt);
+            }
+        });
 
-        label5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label5.setForeground(java.awt.Color.black);
-        label5.setMaximumSize(new java.awt.Dimension(64, 18));
-        label5.setText("Min Support:");
+        minConfidenceLabel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        minConfidenceLabel.setForeground(java.awt.Color.black);
+        minConfidenceLabel.setMaximumSize(new java.awt.Dimension(99, 18));
+        minConfidenceLabel.setText("Min Confidence (%)");
 
-        supportTxtField.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
-        supportTxtField.addTextListener(new java.awt.event.TextListener() {
+        minConfidenceTxtField.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
+        minConfidenceTxtField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minConfidenceTxtFieldActionPerformed(evt);
+            }
+        });
+        minConfidenceTxtField.addTextListener(new java.awt.event.TextListener() {
             public void textValueChanged(java.awt.event.TextEvent evt) {
-                supportTxtFieldTextValueChanged(evt);
+                minConfidenceTxtFieldTextValueChanged(evt);
             }
         });
 
-        jComboBox1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        decisionAtributeFromLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        decisionAtributeFromLabel.setForeground(java.awt.Color.black);
+        decisionAtributeFromLabel.setText("Decision Value From");
+
+        decisionValFromComboBox.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        decisionValFromComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I-1", "I-2", "I-3", "I-4" }));
+        decisionValFromComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                decisionValFromComboBoxActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(153, 153, 153));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("Get Attributes");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        decisionAtributeToLabel.setAlignment(java.awt.Label.RIGHT);
+        decisionAtributeToLabel.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        decisionAtributeToLabel.setForeground(java.awt.Color.black);
+        decisionAtributeToLabel.setText("To");
+
+        decisionValToComboBox.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        decisionValToComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I-1", "I-2", "I-3", "I-4" }));
+        decisionValToComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                decisionValToComboBoxActionPerformed(evt);
             }
         });
 
-        label7.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label7.setForeground(java.awt.Color.black);
-        label7.setText("Decision Attribute");
-
-        label8.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label8.setForeground(java.awt.Color.black);
-        label8.setText("Decision Value From");
+        availableAttributesLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        availableAttributesLabel.setForeground(java.awt.Color.black);
+        availableAttributesLabel.setText("Available Attributes:");
 
         attrValues.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         attrValues.setForeground(java.awt.Color.black);
 
-        decisionValFromJCB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        decisionValFromJCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I-1", "I-2", "I-3", "I-4" }));
-        decisionValFromJCB.addActionListener(new java.awt.event.ActionListener() {
+        getAttributesButton.setBackground(new java.awt.Color(153, 153, 153));
+        getAttributesButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        getAttributesButton.setText("Get Attributes");
+        getAttributesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                decisionValFromJCBActionPerformed(evt);
-            }
-        });
-
-        decisionValToJCB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        decisionValToJCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I-1", "I-2", "I-3", "I-4" }));
-        decisionValToJCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                decisionValToJCBActionPerformed(evt);
+                getAttributesButtonActionPerformed(evt);
             }
         });
 
@@ -400,33 +400,33 @@ public class Kdd extends javax.swing.JFrame {
                 .add(1, 1, 1)
                 .add(midPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, midPanelLayout.createSequentialGroup()
-                        .add(label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(availableAttributesLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(getAttributesButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(midPanelLayout.createSequentialGroup()
                         .add(midPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(label5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(label6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .add(minSupportLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(minConfidenceLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(midPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(attrValues, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(midPanelLayout.createSequentialGroup()
-                                .add(confidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(minConfidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(label8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(decisionAtributeFromLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(midPanelLayout.createSequentialGroup()
-                                .add(supportTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(minSupportText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(label7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .add(decisionAttributeLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(midPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jComboBox1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(decisionAttributeComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(midPanelLayout.createSequentialGroup()
-                                .add(decisionValFromJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(decisionValFromComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .add(2, 2, 2)
-                                .add(label9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(decisionAtributeToLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(decisionValToJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                                .add(decisionValToComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         midPanelLayout.setVerticalGroup(
@@ -434,29 +434,43 @@ public class Kdd extends javax.swing.JFrame {
             .add(midPanelLayout.createSequentialGroup()
                 .add(3, 3, 3)
                 .add(midPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, supportTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionAttributeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionAttributeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, minSupportText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, minSupportLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(2, 2, 2)
                 .add(midPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionValToJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionValFromJCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, confidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionValToComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionAtributeToLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionValFromComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, decisionAtributeFromLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, minConfidenceTxtField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, minConfidenceLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(midPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jButton2)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, getAttributesButton)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, attrValues, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, availableAttributesLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        attrFileLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        attrFileLabel.setForeground(java.awt.Color.black);
-        attrFileLabel.setText("Choose Attribute File");
+        dataFileLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        dataFileLabel.setForeground(java.awt.Color.black);
+        dataFileLabel.setText("Choose Data File ");
+
+        dataFilePathTextField.setEditable(false);
+        dataFilePathTextField.setMaximumSize(new java.awt.Dimension(6, 20));
+
+        dataBrowseBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        dataBrowseBtn.setText("...");
+        dataBrowseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataBrowseBtnActionPerformed(evt);
+            }
+        });
+
+        delimiterLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        delimiterLabel.setText("Delimiter");
 
         delimiterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ",", "\\t", "|", "Other" }));
         delimiterComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -464,6 +478,19 @@ public class Kdd extends javax.swing.JFrame {
                 delimiterComboBoxActionPerformed(evt);
             }
         });
+
+        delimiterOtherText.setText("Other");
+
+        hasHeaderCheckbox.setText("Data File contains headers.");
+        hasHeaderCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hasHeaderCheckboxActionPerformed(evt);
+            }
+        });
+
+        attrFileLabel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        attrFileLabel.setForeground(java.awt.Color.black);
+        attrFileLabel.setText("Choose Attribute File");
 
         attrFilePathTextField.setEditable(false);
         attrFilePathTextField.setMaximumSize(new java.awt.Dimension(6, 20));
@@ -481,38 +508,11 @@ public class Kdd extends javax.swing.JFrame {
             }
         });
 
-        label4.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        label4.setForeground(java.awt.Color.black);
-        label4.setText("Choose Data File ");
-
-        dataFilePathTextField.setEditable(false);
-        dataFilePathTextField.setMaximumSize(new java.awt.Dimension(6, 20));
-
-        dataBrowseBtn.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        dataBrowseBtn.setText("...");
-        dataBrowseBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dataBrowseBtnActionPerformed(evt);
-            }
-        });
-
         submitBtn.setFont(submitBtn.getFont().deriveFont(submitBtn.getFont().getStyle() | java.awt.Font.BOLD));
         submitBtn.setText("Load");
         submitBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitBtnActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jLabel1.setText("Delimiter");
-
-        delimiterOtherText.setText("Other");
-
-        hasHeaderCheckbox.setText("Data File contains headers.");
-        hasHeaderCheckbox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hasHeaderCheckboxActionPerformed(evt);
             }
         });
 
@@ -527,9 +527,9 @@ public class Kdd extends javax.swing.JFrame {
                         .add(topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                 .add(attrFileLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(label4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .add(dataFileLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .add(topPanelLayout.createSequentialGroup()
-                                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 48, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(delimiterLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 48, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(delimiterComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .add(18, 18, 18)
@@ -560,10 +560,10 @@ public class Kdd extends javax.swing.JFrame {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(dataFilePathTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(dataBrowseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, label4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, dataFileLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(10, 10, 10)
                 .add(topPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel1)
+                    .add(delimiterLabel)
                     .add(delimiterComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(hasHeaderCheckbox)
                     .add(delimiterOtherText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -719,7 +719,7 @@ public class Kdd extends javax.swing.JFrame {
             readData(dataFilePath,delimiter,hasHeader);
             attrValues.setText(attributeNames.toString());
             attributeNames.forEach((attr) -> {
-                jComboBox1.addItem(attr);
+                decisionAttributeComboBox.addItem(attr);
             });
         } else{
             jOptionPane1.showMessageDialog(null,"Have you chosen your files correctly?","File Not Found",JOptionPane.ERROR_MESSAGE);
@@ -729,22 +729,22 @@ public class Kdd extends javax.swing.JFrame {
 		
     }//GEN-LAST:event_submitBtnActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void decisionAttributeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decisionAttributeComboBoxActionPerformed
         // TODO add your handling code here:
-        decisionAtribute = jComboBox1.getSelectedItem().toString();
+        decisionAtribute = decisionAttributeComboBox.getSelectedItem().toString();
         //label8.setText("Decision("+decisionAtribute+") Value From");
         //System.out.println(distinctAttributeValues.get(decisionAtribute).toArray());
 
         Set<String> x = distinctAttributeValues.get(decisionAtribute);
-        decisionValFromJCB.setModel(new javax.swing.DefaultComboBoxModel<>(x.toArray(new String[x.size()])));
-        decisionValToJCB.setModel(new javax.swing.DefaultComboBoxModel<>(x.toArray(new String[x.size()])));
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        decisionValFromComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(x.toArray(new String[x.size()])));
+        decisionValToComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(x.toArray(new String[x.size()])));
+    }//GEN-LAST:event_decisionAttributeComboBoxActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void getAttributesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getAttributesButtonActionPerformed
         // TODO add your handling code here:
         
-        decisionFrom = decisionValFromJCB.getSelectedItem().toString();
-        decisionTo = decisionValToJCB.getSelectedItem().toString();
+        decisionFrom = decisionValFromComboBox.getSelectedItem().toString();
+        decisionTo = decisionValToComboBox.getSelectedItem().toString();
         
         if(decisionFrom.equals(decisionTo)){
             jOptionPane1.showMessageDialog(null,"Decision From and Decision To Cannot Be the same?","Action Rule Decisions",JOptionPane.ERROR_MESSAGE);
@@ -770,12 +770,12 @@ public class Kdd extends javax.swing.JFrame {
             for(int i=0;i<flexibleAttributes.size();i++){
                 flexArray[i] = flexibleAttributes.get(i);
             }
-                jListStableAttributesAvailable.setListData(flexArray);
-            jScrollPane1.setViewportView(jListStableAttributesAvailable);
+                stableAttributeAvailableList.setListData(flexArray);
+            stableAttributesAvailableScrollPane.setViewportView(stableAttributeAvailableList);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_getAttributesButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void generateActionRulesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateActionRulesButtonActionPerformed
         // TODO add your handling code here:
         
 
@@ -796,26 +796,26 @@ public class Kdd extends javax.swing.JFrame {
         
         
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_generateActionRulesButtonActionPerformed
 
-    private void stableAttrsTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_stableAttrsTextValueChanged
+    private void stableAttributeTextTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_stableAttributeTextTextValueChanged
         // TODO add your handling code here:
-        userStableAttribute = stableAttrs.getText();
-    }//GEN-LAST:event_stableAttrsTextValueChanged
+        userStableAttribute = stableAttributeText.getText();
+    }//GEN-LAST:event_stableAttributeTextTextValueChanged
 
-    private void supportTxtFieldTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_supportTxtFieldTextValueChanged
+    private void minSupportTextTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_minSupportTextTextValueChanged
         // TODO add your handling code here:
-        minimum_Support = Integer.parseInt(supportTxtField.getText());
-    }//GEN-LAST:event_supportTxtFieldTextValueChanged
+        minimum_Support = Integer.parseInt(minSupportText.getText());
+    }//GEN-LAST:event_minSupportTextTextValueChanged
 
-    private void confidenceTxtFieldTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_confidenceTxtFieldTextValueChanged
+    private void minConfidenceTxtFieldTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_minConfidenceTxtFieldTextValueChanged
         // TODO add your handling code here:
-        minimum_Confidence = Integer.parseInt(confidenceTxtField.getText());
-    }//GEN-LAST:event_confidenceTxtFieldTextValueChanged
+        minimum_Confidence = Integer.parseInt(minConfidenceTxtField.getText());
+    }//GEN-LAST:event_minConfidenceTxtFieldTextValueChanged
 
-    private void confidenceTxtFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confidenceTxtFieldActionPerformed
+    private void minConfidenceTxtFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minConfidenceTxtFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_confidenceTxtFieldActionPerformed
+    }//GEN-LAST:event_minConfidenceTxtFieldActionPerformed
 
     private void attrFilePathTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attrFilePathTextFieldActionPerformed
         // TODO add your handling code here:
@@ -841,34 +841,34 @@ public class Kdd extends javax.swing.JFrame {
         
     }//GEN-LAST:event_hasHeaderCheckboxActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         // TODO add your handling code here:
         initVariables();
         //new Kdd();
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_resetButtonActionPerformed
 
-    private void decisionValFromJCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decisionValFromJCBActionPerformed
+    private void decisionValFromComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decisionValFromComboBoxActionPerformed
         // TODO add your handling code here:
-        decisionFrom = decisionValFromJCB.getSelectedItem().toString();
+        decisionFrom = decisionValFromComboBox.getSelectedItem().toString();
         //printMessage("Decision From : "+decisionFrom);
-    }//GEN-LAST:event_decisionValFromJCBActionPerformed
+    }//GEN-LAST:event_decisionValFromComboBoxActionPerformed
 
-    private void decisionValToJCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decisionValToJCBActionPerformed
+    private void decisionValToComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decisionValToComboBoxActionPerformed
         // TODO add your handling code here:
-        decisionTo = decisionValToJCB.getSelectedItem().toString();
+        decisionTo = decisionValToComboBox.getSelectedItem().toString();
         //printMessage("Decision From : "+decisionTo);
-    }//GEN-LAST:event_decisionValToJCBActionPerformed
+    }//GEN-LAST:event_decisionValToComboBoxActionPerformed
 
-    private void jListStableAttributesAvailableValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListStableAttributesAvailableValueChanged
+    private void stableAttributeAvailableListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_stableAttributeAvailableListValueChanged
         // TODO add your handling code here:
-        List<String> s = jListStableAttributesAvailable.getSelectedValuesList();
+        List<String> s = stableAttributeAvailableList.getSelectedValuesList();
         //userStableAttribute = s.toString().replaceAll("[{}]","");
         //System.out.println(userStableAttribute);
         //System.out.println(stableAttrs);
-        stableAttrs.setText(s.toString().replace("[","").replace("]","").replace(" ",""));
+        stableAttributeText.setText(s.toString().replace("[","").replace("]","").replace(" ",""));
         //printMessage("Stable Attributes : "+stableAttrs.getText());
-    }//GEN-LAST:event_jListStableAttributesAvailableValueChanged
+    }//GEN-LAST:event_stableAttributeAvailableListValueChanged
 
     private void outFileBrowseBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outFileBrowseBtn1ActionPerformed
         // TODO add your handling code here:
@@ -882,14 +882,14 @@ public class Kdd extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         //    
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-          jTextField1.setText(chooser.getSelectedFile().toString());
-          outFilePath = jTextField1.getText();
+          outputLocationText.setText(chooser.getSelectedFile().toString());
+          outFilePath = outputLocationText.getText();
         }        
     }//GEN-LAST:event_outFileBrowseBtn1ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void outputLocationTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputLocationTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_outputLocationTextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2028,48 +2028,48 @@ public class Kdd extends javax.swing.JFrame {
     private java.awt.Label attrFileLabel;
     private javax.swing.JTextField attrFilePathTextField;
     private java.awt.Label attrValues;
-    private java.awt.TextField confidenceTxtField;
+    private java.awt.Label availableAttributesLabel;
     private javax.swing.JButton dataBrowseBtn;
+    private java.awt.Label dataFileLabel;
     private javax.swing.JTextField dataFilePathTextField;
-    private javax.swing.JComboBox<String> decisionValFromJCB;
-    private javax.swing.JComboBox<String> decisionValToJCB;
+    private java.awt.Label decisionAtributeFromLabel;
+    private java.awt.Label decisionAtributeToLabel;
+    private javax.swing.JComboBox<String> decisionAttributeComboBox;
+    private java.awt.Label decisionAttributeLabel;
+    private javax.swing.JComboBox<String> decisionValFromComboBox;
+    private javax.swing.JComboBox<String> decisionValToComboBox;
     private javax.swing.JComboBox<String> delimiterComboBox;
+    private javax.swing.JLabel delimiterLabel;
     private javax.swing.JTextField delimiterOtherText;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JButton generateActionRulesButton;
+    private javax.swing.JButton getAttributesButton;
     private javax.swing.JCheckBox hasHeaderCheckbox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelLoading;
-    private javax.swing.JList<String> jListStableAttributesAvailable;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private java.awt.Label label10;
-    private java.awt.Label label11;
-    private java.awt.Label label2;
-    private java.awt.Label label4;
-    private java.awt.Label label5;
-    private java.awt.Label label6;
-    private java.awt.Label label7;
-    private java.awt.Label label8;
-    private java.awt.Label label9;
     private javax.swing.JPanel lowerPanel;
     private javax.swing.JPanel midPanel;
+    private java.awt.Label minConfidenceLabel;
+    private java.awt.TextField minConfidenceTxtField;
+    private java.awt.Label minSupportLabel;
+    private java.awt.TextField minSupportText;
     private javax.swing.JButton outFileBrowseBtn1;
-    private java.awt.TextField stableAttrs;
+    private javax.swing.JLabel outputLocationLabel;
+    private javax.swing.JTextField outputLocationText;
+    private javax.swing.JButton resetButton;
+    private javax.swing.JList<String> stableAttributeAvailableList;
+    private java.awt.Label stableAttributeLabel;
+    private java.awt.Label stableAttributeLabel1;
+    private java.awt.TextField stableAttributeText;
+    private javax.swing.JScrollPane stableAttributesAvailableScrollPane;
     private javax.swing.JButton submitBtn;
-    private java.awt.TextField supportTxtField;
-    private java.awt.Panel topPanel;
+    private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 
 
