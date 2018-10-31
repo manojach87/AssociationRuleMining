@@ -5,6 +5,11 @@
  */
 package kddproject;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.awt.Color;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -45,7 +50,11 @@ public class Kdd extends javax.swing.JFrame {
     public static String attributeFilePath="";
     public static String dataFilePath="";
     public static String currentFilePath="";
-    public static String outFilePath=".";
+
+    //File f = new File("temp.txt");
+    public static String outFilePath="."; 
+    //System.out.println("f.getAbsolutePath() = " + f.getAbsolutePath());
+    
     public static List<String> attributeNames = new ArrayList<String>();
     public static List<String> stableAttributes = new ArrayList<String>();
     public static List<String> flexibleAttributes = new ArrayList<String>();
@@ -57,7 +66,13 @@ public class Kdd extends javax.swing.JFrame {
     public static StringBuilder stringBuilder = new StringBuilder();
     public static ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
 
+    public static boolean outputFileWriteStarted = false;
+    public static boolean outputLogFileWriteStarted = false;
+    public static boolean writeOutputFile = false;
+    public static String stringToWrite = ""; 
 
+    static Map<String, HashSet<String>> dataMap = new HashMap<String, HashSet<String>>();
+    static Map<String, HashSet<String>> attributeValuesToAtribute = new HashMap<String, HashSet<String>>();
     static Map<String, HashSet<String>> distinctAttributeValues = new HashMap<String, HashSet<String>>();
     static Map<HashSet<String>, HashSet<String>> attributeValues = new HashMap<HashSet<String>, HashSet<String>>();
     static Map<HashSet<String>, HashSet<String>> reducedAttributeValues = new HashMap<HashSet<String>, HashSet<String>>();
@@ -100,6 +115,7 @@ public class Kdd extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public Kdd() {
+    	trace(Thread.currentThread().getStackTrace());
         initComponents();
         for( int i=0; i<jPanel1.getComponents().length; i++)
         {
@@ -120,6 +136,7 @@ public class Kdd extends javax.swing.JFrame {
     @SuppressWarnings({ "unchecked", "deprecation" })
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	trace(Thread.currentThread().getStackTrace());
 
         jOptionPane1 = new javax.swing.JOptionPane();
         jPanel3 = new javax.swing.JPanel();
@@ -652,6 +669,10 @@ public class Kdd extends javax.swing.JFrame {
 
     private void dataBrowseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataBrowseBtnActionPerformed
         // TODO add your handling code here:
+
+
+    	
+    	delimiterComboBox.setSelectedIndex(0);
          fileChooser = new JFileChooser(currentFilePath);
         int returnValue = fileChooser.showOpenDialog(Kdd.this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -671,7 +692,7 @@ public class Kdd extends javax.swing.JFrame {
         //Read stable,flexible and decision attributes
         //label2.setText("Available Attributes are:" +" "+attributeNames.toString());
         
-        
+
         
         boolean filesExist = false;
         if(hasHeader){
@@ -754,11 +775,7 @@ public class Kdd extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
-        //List<String> s = jListStableAttributesAvailable.getSelectedValuesList();
-        //userStableAttribute = s.toString().replaceAll("[{}]","");
-        //System.out.println(userStableAttribute);
-        //System.err.println(s.toString().replace("[","").replace("]","").replace(" ",""));
-        
+
         setStableAttributes(attributeNames);
         
         //System.out.println(jListStableAttributesAvailable.getSelectedValuesList());
@@ -766,7 +783,15 @@ public class Kdd extends javax.swing.JFrame {
         //System.out.println("Min Confidence = "+minimum_Confidence+", Min Support = "+minimum_Support);
         printMessage("Min Confidence = "+minimum_Confidence+", Min Support = "+minimum_Support);
         findRules();
-        generateActionRules();
+        //generateActionRules();
+        generateActionRulesTest();
+        ArrayList<String> arr = new ArrayList<>();
+        arr.add("A1");
+//        arr.add("F2");
+        //System.out.println(findLineNumInFile(arr)); // To get line Number of the occurrence of a set of attributes
+        //loops();
+        
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -917,31 +942,21 @@ public class Kdd extends javax.swing.JFrame {
             printMessage(new Date());
         });
     }
-
-    //Reading attributes and data
-//	private static void readAttributes() {
-//        try {
-//            input = new Scanner(new File(attributeFilePath));
-//            
-//            while (input.hasNextLine()) {
-//                attributeNames.add(input.nextLine());
-//            }
-//            printList(attributeNames);
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//		
-//	}
         
 	private static void readAttributes(String fileName, String delim) {
+		//trace(Thread.currentThread().getStackTrace());
 		try {
                         //System.out.println(fileName);
 			Scanner headerScan = new Scanner(new File(fileName));
 			//input.hasNext();
 			//attributeNames.clear();
 			if(headerScan.hasNextLine()) {
+				//String h = headerScan.nextLine();
+				//System.out.println(h);
 				String[] splitted = (headerScan.nextLine()).split(delim); // Read First Line and split by delimiter
-                                attributeNames.addAll(Arrays.asList(splitted)); // Add to AttributeNames
+				//String[] splitted = h.split(delim); // Read First Line and split by delimiter
+				
+                attributeNames.addAll(Arrays.asList(splitted)); // Add to AttributeNames
                         //System.out.println(attributeNames);
 			}
 			headerScan.close();
@@ -956,8 +971,10 @@ public class Kdd extends javax.swing.JFrame {
 		
 	}
 
-        private static void readData(String fileName, String delim, boolean hasHeader ) {
+    private static void readData(String fileName, String delim, boolean hasHeader ) {
+                
 		try {
+			//trace(Thread.currentThread().getStackTrace());
                     //System.out.println(fileName);
 			input = new Scanner(new File(fileName));
 			int lineNo = 0;
@@ -969,6 +986,7 @@ public class Kdd extends javax.swing.JFrame {
 			}
 			else {
 				String headerFileName = getHeaderFile(hasHeader);
+				System.out.println(headerFileName);
 				readAttributes(headerFileName, delim);
 			}
 			while(input.hasNextLine()){
@@ -1021,14 +1039,17 @@ public class Kdd extends javax.swing.JFrame {
 		}
 	}
 	private static String getHeaderFile(boolean fileHasHeader) {
+		trace(Thread.currentThread().getStackTrace());
 		if(fileHasHeader)
 			return null;
 		else
 			return attributeFilePath;
 	}
 
-        private static void setMap(Map<HashSet<String>, HashSet<String>> values,
-			String string, HashSet<String> key, int lineNo) {
+    private static void setMap(Map<HashSet<String>, HashSet<String>> values,String string, HashSet<String> key, int lineNo) {
+
+    	// Insert LineNumbers Alongside Values
+       	trace(Thread.currentThread().getStackTrace());
 		HashSet<String> tempSet;
 		
 		if (values.containsKey(key)) {
@@ -1042,12 +1063,14 @@ public class Kdd extends javax.swing.JFrame {
 	}
         //Printing String, List and Map
 	public static void printMessage(Object content){
+		trace(Thread.currentThread().getStackTrace());
 		System.out.println(content);
-                if(kdd.jTextArea1.getText().length()>4000)
-                    kdd.jTextArea1.setText("");
-                kdd.jTextArea1.append(content.toString()+"\n");
+        if(kdd.jTextArea1.getText().length()>4000)
+            kdd.jTextArea1.setText("");
+        kdd.jTextArea1.append(content.toString()+"\n");
 	}
-        public static void printList(List<String> list){
+    public static void printList(List<String> list){
+    	trace(Thread.currentThread().getStackTrace());
 		Iterator iterate = list.iterator();
 		
 //		while(iterate.hasNext()){
@@ -1056,26 +1079,35 @@ public class Kdd extends javax.swing.JFrame {
 	}
 	
 	private static void printAttributeMap(Map<HashSet<String>, HashSet<String>> values) {
+		trace(Thread.currentThread().getStackTrace());
 		for(Map.Entry<HashSet<String>, HashSet<String>> set : values.entrySet()){
 			
                         if(!(set.getValue().isEmpty())){
                             printMessage(set.getKey().toString() + " = " + set.getValue());
-                            stringBuilder.append(set.getKey().toString())
-                                         .append(" = ")
-                                         .append(set.getValue())
-                                         .append(System.lineSeparator());
+//                            stringBuilder.append(set.getKey().toString())
+//                                         .append(" = ")
+//                                         .append(set.getValue())
+//                                         .append(System.lineSeparator());
+                            writeFileBuffered(set.getKey().toString());
+                            writeFileBuffered(" = ");
+                            writeFileBuffered(set.getValue());
+                            writeFileBuffered(System.lineSeparator());
                         }
 		}
 	}
 	
 	private static void printCertainRulesMap(Map<ArrayList<String>, String> value) {
+		trace(Thread.currentThread().getStackTrace());
           kdd.jLabelLoading.setText("Generating Certain Rules");
           printMessage("Generating Certain Rules..");
 
           kdd.jLabelLoading.setVisible(true);
             //printMessage("\nCertain Rules:");
-                stringBuilder.append(System.lineSeparator())
-                             .append("Certain Rules:");
+//                stringBuilder.append(System.lineSeparator())
+//                             .append("Certain Rules:");
+
+                writeFileBuffered(System.lineSeparator());
+                writeFileBuffered("Certain Rules:");
                 Iterator iterator = value.entrySet().iterator();
                 while(iterator.hasNext()){
                     Map.Entry set = (Map.Entry)iterator.next();
@@ -1091,14 +1123,25 @@ public class Kdd extends javax.swing.JFrame {
 			if(Integer.parseInt(confidence) >= minimum_Confidence && support >= minimum_Support){
                             printMessage(set.getKey().toString() + " -> " + set.getValue() + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
                             //System.out.println(set.getKey().toString() + " -> " + set.getValue() + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
-                            stringBuilder
-                                    .append(set.getKey().toString())
-                                    .append(" -> ").append(set.getValue())
-                                    .append("[Support:-").append(support)
-                                    .append(", Confidence:-")
-                                    .append(confidence)
-                                    .append("%]")
-                                    .append(System.lineSeparator());
+//                            stringBuilder
+//                                    .append(set.getKey().toString())
+//                                    .append(" -> ").append(set.getValue())
+//                                    .append("[Support:-").append(support)
+//                                    .append(", Confidence:-")
+//                                    .append(confidence)
+//                                    .append("%]")
+//                                    .append(System.lineSeparator());
+
+                            writeFileBuffered(set.getKey().toString());
+                            writeFileBuffered(" -> ");
+                            writeFileBuffered(set.getValue());
+                            writeFileBuffered("[Support:-");
+                            writeFileBuffered(support);
+                            writeFileBuffered(", Confidence:-");
+                            writeFileBuffered(confidence);
+                            writeFileBuffered("%]");
+                            writeFileBuffered(System.lineSeparator());
+                            
                         }else{
                         iterator.remove();
                         }
@@ -1107,15 +1150,19 @@ public class Kdd extends javax.swing.JFrame {
 	}
 	
 	private static void printPossibleRulesMap(Map<ArrayList<String>, HashSet<String>> value) {
+		trace(Thread.currentThread().getStackTrace());
 		 kdd.jLabelLoading.setText("Generating Possible Rules");
 		 printMessage("\nGenerating Possible Rules..");
                  kdd.jLabelLoading.setVisible(true);
 		if(!value.isEmpty()){
 			//printMessage("\nPossible Rules:");
-                        stringBuilder
-                                    .append(System.lineSeparator())
-                                    .append("Possible Rules:")
-                                    .append(System.lineSeparator());
+//                        stringBuilder
+//                                    .append(System.lineSeparator())
+//                                    .append("Possible Rules:")
+//                                    .append(System.lineSeparator());
+            writeFileBuffered(System.lineSeparator());
+            writeFileBuffered("Possible Rules:");
+            writeFileBuffered(System.lineSeparator());
                          Iterator iterator = value.entrySet().iterator();
                           while(iterator.hasNext()){
                             Map.Entry set = (Map.Entry)iterator.next();
@@ -1128,13 +1175,22 @@ public class Kdd extends javax.swing.JFrame {
                                         if(Integer.parseInt(confidence) >= minimum_Confidence && support >= minimum_Support){
                                         //printMessage(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
                                         System.out.println(set.getKey().toString() + " -> " + possibleValue + "[Support:-" + support + ", Confidence:-" + confidence +"%]");
-                                        stringBuilder.append(set.getKey().toString())
-                                                .append(" -> ").append(possibleValue)
-                                                .append("[Support:-").append(support)
-                                                .append(", Confidence:-")
-                                                .append(confidence)
-                                                .append("%]")
-                                                .append(System.lineSeparator());
+//                                        stringBuilder.append(set.getKey().toString())
+//                                                .append(" -> ").append(possibleValue)
+//                                                .append("[Support:-").append(support)
+//                                                .append(", Confidence:-")
+//                                                .append(confidence)
+//                                                .append("%]")
+//                                                .append(System.lineSeparator());
+                                        writeFileBuffered(set.getKey().toString());
+                                        writeFileBuffered(" -> ");writeFileBuffered(possibleValue);
+                                        writeFileBuffered("[Support:-");writeFileBuffered(support);
+                                        writeFileBuffered(", Confidence:-");
+                                        writeFileBuffered(confidence);
+                                        writeFileBuffered("%]");
+                                        writeFileBuffered(System.lineSeparator());
+                                        
+                                        
                                         }else{
                                            setIterator.remove();
                                         }
@@ -1144,6 +1200,7 @@ public class Kdd extends javax.swing.JFrame {
 	}
 
 	private static int findLERSSupport(ArrayList<String> tempList) {
+		trace(Thread.currentThread().getStackTrace());
 		int count = 0;
 		
 		for(ArrayList<String> data : data){	
@@ -1153,8 +1210,165 @@ public class Kdd extends javax.swing.JFrame {
 		
 		return count;
 	}
+	// Get x1 x2 x3 etc - ie location of a attribute value
+	private static ArrayList<String> findLineNumInFile(ArrayList<String> list) {
+		trace(Thread.currentThread().getStackTrace());
+		ArrayList<String> index = new ArrayList<>();
+		int count = 0;
+		
+		for(ArrayList<String> data : data){
+			count++;
+			if(data.containsAll(list)) {
+				index.add("x"+count);
+			}
+		}
+		return index;
+	}
+
+	private static String gMarked(ArrayList<String> attrRowNums, Map<ArrayList<String>,ArrayList<String>> decisionAttrToRowMap) {
+		String finalDecision = ""; 
+		for(ArrayList<String> decision: decisionAttrToRowMap.keySet()){
+			
+			if(decisionAttrToRowMap.get(decision).containsAll(attrRowNums) == true) {
+				finalDecision = decision.get(0);
+				break;
+			}
+		}
+		return finalDecision;
+	}
+	
+	private static boolean isMarked(ArrayList<String> attrRowNums, Map<ArrayList<String>,ArrayList<String>> decisionAttrToRowMap) {
+		// Returns 
+		// true  for marked values
+		// false for unmarked values
+		boolean finalDecision = false; 
+		for(ArrayList<String> decision: decisionAttrToRowMap.keySet()){
+			finalDecision = decisionAttrToRowMap.get(decision).containsAll(attrRowNums); 
+			if(finalDecision == true) {
+				break;
+			}
+		}
+		return finalDecision;
+	}
+
+	private static ArrayList<String> getMarked(ArrayList<String> attrRowNums, Map<ArrayList<String>,ArrayList<String>> decisionAttrToRowMap) {
+		//Returns Decision Attribute value for Marked Values
+		ArrayList<String> finalDecision = new ArrayList<>(); 
+		for(ArrayList<String> decision: decisionAttrToRowMap.keySet()){
+			if(decisionAttrToRowMap.get(decision).containsAll(attrRowNums) == true) {
+				finalDecision = decision;
+				break;
+			}
+		}
+		return finalDecision;
+	}
+    // Loop Through Attributes
+	private static void loops() {
+		System.out.println(distinctAttributeValues);
+		Map<ArrayList<String>,ArrayList<String>> attrToRowMap = new HashMap<>();
+		Map<ArrayList<String>,ArrayList<String>> decisionAttrToRowMap = new HashMap<>();
+
+		Map<ArrayList<String>,ArrayList<String>> attrToRowMapMarked = new HashMap<>();
+		Map<ArrayList<String>,ArrayList<String>> attrToRowMapUnmarked = new HashMap<>();
+		
+		for(HashSet<String> attrList : distinctAttributeValues.values()) {
+			for(int i =0; i < attrList.size();i++)
+			{
+				ArrayList<String> arr = new ArrayList<>();
+				String attrVal = attrList.toArray()[i].toString();
+				arr.add(attrList.toArray()[i].toString());
+				
+				if(getAttributeName(attrVal)==decisionAtribute) {
+					decisionAttrToRowMap.put(arr, findLineNumInFile(arr));
+					// For Ex: {[C1]=[x2, x3], [C2]=[x1, x4, x5, x6]}
+				}
+				else {
+					attrToRowMap.put(arr, findLineNumInFile(arr)); 
+					// For Ex. {[A2]=[x1, x5], [G1]=[x2, x4], [F1]=[x1, x4], [G2]=[x3, x5], [F2]=[x2, x3, x5, x6], [G3]=[x1, x6], [A1]=[x2, x3, x4, x6]}
+				}
+			}
+		}
+		ArrayList<String> nullArrayList = new ArrayList<>();
+		nullArrayList.add("N/A");
+		for(ArrayList<String> attrVal: attrToRowMap.keySet()){
+			//System.out.println(isMarked(attrToRowMap.get(attrVal),decisionAttrToRowMap));
+			
+			//System.out.println(getMarked(attrToRowMap.get(attrVal),decisionAttrToRowMap));
+			if(isMarked(attrToRowMap.get(attrVal),decisionAttrToRowMap)==true){
+				attrToRowMapMarked.put(attrVal, getMarked(attrToRowMap.get(attrVal),decisionAttrToRowMap));
+			}
+			// Create Unmarked List
+			else {
+				attrToRowMapUnmarked.put(attrVal, nullArrayList);
+			}			
+			//System.out.println(decisionAttrToRowMap.get(decision).containsAll(attrRowNums));
+		}
+		System.out.println(attrToRowMap.toString());
+		System.out.println(decisionAttrToRowMap.toString());
+        printMessage("Decision Attribute       : "+decisionAtribute);
+        printMessage("Decision From            : "+decisionFrom);
+        printMessage("Decision To              : "+decisionTo);
+        System.out.println("Marked Items");
+        System.out.println(attrToRowMapMarked);
+	} 
+	private static HashSet<HashSet<String>> createAttributeValueList(int n, HashSet<String> cols, HashSet<HashSet<String>> attrVals ) {	
+		HashSet<HashSet<String>> product = new HashSet<>();
+		cols.remove(decisionAtribute);
+		int i = cols.size();
+		if(n<i) {
+			//HashSet<HashSet<String>> crossProduct = 
+			product = createAttributeValueList(n+1,cols,attrVals);
+		}
+		return product;		
+	}
+	
+	private static HashSet<HashSet<String>> multiply(HashSet<HashSet<String>> set1, HashSet<HashSet<String>> set2) {
+		HashSet<HashSet<String>> set = new HashSet<HashSet<String>>();
+		for(int i=0; i<set1.size(); i++ ) {
+			HashSet<String> smallerSet = new HashSet<>();
+			for(int j=0; i<set2.size(); i++ ) {
+				smallerSet.add(set1.toArray()[i].toString());
+				smallerSet.add(set2.toArray()[j].toString());
+			}
+			set.add(smallerSet);
+		}
+		return set;
+	}
+	
+	private static Set<Set<String>> setMultiply(Set<Set<String>> set1, Set<Set<String>> set2)
+	{
+		Set<Set<String>> x = new HashSet<>();
+		
+		return cartesianProduct(set1, set2);
+	}
+	
+	public static HashSet<Set<String>> cartesianProduct(Set<?>... sets) {
+	    if (sets.length < 2)
+	        throw new IllegalArgumentException(
+	                "Can't have a product of fewer than two sets (got " +
+	                sets.length + ")");
+
+	    return _cartesianProduct(0, sets);
+	}
+
+	private static HashSet<Set<String>> _cartesianProduct(int index, Set<?>... sets) {
+		HashSet<Set<String>> ret = new HashSet<Set<String>>();
+	    if (index == sets.length) {
+	        ret.add(new HashSet<String>());
+	    } else {
+	        for (Object obj : sets[index]) {
+	            for (Set<String> set : _cartesianProduct(index+1, sets)) {
+	                set.add(obj.toString());
+	                ret.add(set);
+	            }
+	        }
+	    }
+	    return ret;
+	}
+	
 	
 	private static int calculateSupportLERS(ArrayList<String> key, String value) {
+		trace(Thread.currentThread().getStackTrace());
 		ArrayList<String> tempList = new ArrayList<>();
 		
 		for(String val : key){
@@ -1171,6 +1385,7 @@ public class Kdd extends javax.swing.JFrame {
 
 	private static String calculateConfidenceLERS(ArrayList<String> key,
 			String value) {
+		trace(Thread.currentThread().getStackTrace());
 		int num = calculateSupportLERS(key, value);
 		int den = calculateSupportLERS(key, "");
                 int confidence = 0;
@@ -1181,17 +1396,24 @@ public class Kdd extends javax.swing.JFrame {
 		return String.valueOf(confidence);
 	}
         
-        private static void findRules() {
+    private static void findRules() {
+    	trace(Thread.currentThread().getStackTrace());
 		int loopCount = 0;
 		
 		while(!attributeValues.isEmpty()){
 			printMessage("\nLoop " + (++loopCount) +":");
-                        stringBuilder
-                                .append(System.lineSeparator())
-                                .append("Loop ")
-                                .append(loopCount).append(":");
+//            stringBuilder
+//                    .append(System.lineSeparator())
+//                    .append("Loop ")
+//                    .append(loopCount).append(":");
+
+			writeFileBuffered(System.lineSeparator());
+			writeFileBuffered("Loop ");
+			writeFileBuffered(loopCount);
+			
 			printMessage("--------------------------");
-                        stringBuilder.append("--------------------------");
+//            stringBuilder.append("--------------------------");
+			writeFileBuffered("--------------------------");
 			printAttributeMap(attributeValues);
 			
 			for (Map.Entry<HashSet<String>, HashSet<String>> set : attributeValues.entrySet()) {
@@ -1224,38 +1446,64 @@ public class Kdd extends javax.swing.JFrame {
 			
 			printCertainRulesMap(certainRules);
 			printPossibleRulesMap(possibleRules);
-                    try {
-                        writeFile(stringBuilder.toString());
-                    } catch (IOException ex) {
-                        Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+            try {
+                writeFile(stringBuilder.toString());
+            } catch (IOException ex) {
+                Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
+            }
 			combinePossibleRules();
 		}
           //       generateActionRules();
 	}
 
 	private static void removeMarkedValues() {
+
+		trace(Thread.currentThread().getStackTrace());
 		for(Map.Entry<ArrayList<String>, HashSet<String>> markedSet : markedValues.entrySet()){
 			attributeValues.remove(new HashSet<>(markedSet.getKey()));
 		}
 		
 	}
-	
+	private static String getAttributeName(String value) {
+		String attributeName="N/A";
+		for(String str:distinctAttributeValues.keySet()){
+			for(String str1:distinctAttributeValues.get(str)) {
+				if(str1==value) {
+					attributeName = str; 
+				}
+			}
+		}
+		return attributeName;
+	}
 	private static void combinePossibleRules() {
+		trace(Thread.currentThread().getStackTrace());
 		Set<ArrayList<String>> keySet = possibleRules.keySet();
 		ArrayList<ArrayList<String>> keyList = new ArrayList<>();
 		keyList.addAll(keySet);
+//		System.out.print("keySet : ");
+//		System.out.println(keySet);
+//		System.out.print("keyList");
+//		System.out.println(keyList);
 		
 		for(int i = 0;i<possibleRules.size();i++){
 			for(int j = (i+1);j<possibleRules.size();j++){
 				HashSet<String> combinedKeys = new HashSet<>(keyList.get(i));
 				combinedKeys.addAll(new HashSet<>(keyList.get(j)));
+				//System.out.print("combinedKeys : ");
+				//System.out.println(combinedKeys);
 				
 				if(!checkSameGroup(combinedKeys)){
-					combineAttributeValues(combinedKeys);
+					//combineAttributeValues(combinedKeys);
+					combineAttributeValuesNew(combinedKeys);
 				}
 			}
 		}
+//
+//		System.out.println("After----------");
+//		System.out.print("keySet : ");
+//		System.out.println(keySet);
+//		System.out.print("keyList");
+//		System.out.println(keyList);
 		
 		possibleRules.clear();
 		
@@ -1265,6 +1513,7 @@ public class Kdd extends javax.swing.JFrame {
 	}
 
 	private static boolean checkSameGroup(HashSet<String> combinedKeys) {
+		trace(Thread.currentThread().getStackTrace());
 		for(Map.Entry<String, HashSet<String>> singleAttribute : distinctAttributeValues.entrySet()){
 			if(singleAttribute.getValue().containsAll(combinedKeys)){
 				return true;
@@ -1273,8 +1522,34 @@ public class Kdd extends javax.swing.JFrame {
 		
 		return false;
 	}
-	
-	private static void combineAttributeValues(HashSet<String> combinedKeys) {
+	private static boolean ensureDifferentAttributes(HashSet<String> combinedKeys) {
+		boolean ret = true;
+		Iterator<String> itr = combinedKeys.iterator(); 
+		for(int i = 0; i<combinedKeys.size(); i++){
+			if(itr.hasNext()) {
+				String str = itr.next();
+				Iterator<String> itr1 = combinedKeys.iterator();
+				for(int j = 0; j<combinedKeys.size(); j++){
+					if(itr1.hasNext()) {
+						String str1 = itr1.next();
+						if(getAttributeName(str) == getAttributeName(str1) && str!=str1) {
+							//System.out.println("Comparison :" + getAttributeName(str)+ " " + getAttributeName(str));
+							//System.out.println(str+" "+str1);
+							ret=false;
+							break;
+						}
+						
+					}
+				}
+				
+			}
+		}
+//		System.out.print("Processed combinedKeys");
+//		System.out.println(combinedKeys);
+		return ret;
+	}
+	private static void combineAttributeValuesNew(HashSet<String> combinedKeys) {
+		trace(Thread.currentThread().getStackTrace());
 		HashSet<String> combinedValues = new HashSet<>();
 			
 		for(Map.Entry<HashSet<String>, HashSet<String>> attributeValue : attributeValues.entrySet()){
@@ -1286,11 +1561,48 @@ public class Kdd extends javax.swing.JFrame {
 				}
 			}
 		}
+		
+
+//		System.out.print("combinedValues : ");
+//		System.out.println(combinedValues);
+		if(ensureDifferentAttributes(combinedKeys)==true) {
+			reducedAttributeValues.put(combinedKeys, combinedValues);
+		}
+//		else {
+//			reducedAttributeValues.put(combinedKeys, null);
+//		}
+//		System.out.print("reducedAttributeValues : ");
+//		System.out.println(reducedAttributeValues);
+	
+	}
+	
+	private static void combineAttributeValues(HashSet<String> combinedKeys) {
+		trace(Thread.currentThread().getStackTrace());
+		HashSet<String> combinedValues = new HashSet<>();
+			
+		for(Map.Entry<HashSet<String>, HashSet<String>> attributeValue : attributeValues.entrySet()){
+			if(combinedKeys.containsAll(attributeValue.getKey())){
+				if(combinedValues.isEmpty()){
+					combinedValues.addAll(attributeValue.getValue());
+				}else{
+					combinedValues.retainAll(attributeValue.getValue());
+				}
+			}
+		}
+		
+
+//		System.out.print("combinedValues : ");
+//		System.out.println(combinedValues);
+		
 		reducedAttributeValues.put(combinedKeys, combinedValues);
+
+//		System.out.print("reducedAttributeValues : ");
+//		System.out.println(reducedAttributeValues);
 	
 	}
 
 	private static void removeRedundantValues() {
+		trace(Thread.currentThread().getStackTrace());
 		HashSet<String> mark = new HashSet<>();
 		
 		for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttributeValues.entrySet()){
@@ -1308,33 +1620,165 @@ public class Kdd extends javax.swing.JFrame {
 	}
 	
 	private static void clearAttributeValues() {
+		trace(Thread.currentThread().getStackTrace());
 		 attributeValues.clear();
 		 for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttributeValues.entrySet()){
 			 attributeValues.put(reducedAttributeValue.getKey(), reducedAttributeValue.getValue());
 		 }
 		 reducedAttributeValues.clear();
 	}
+ //Get Action Rules by decision
+ private static Map<ArrayList<String>,String> getCertainRulesByDecision(String decision) {
+	 trace(Thread.currentThread().getStackTrace());
+	 Map<ArrayList<String>,String> certainRuleByDecision = new HashMap<ArrayList<String>,String>();
+	 for(Map.Entry<ArrayList<String>, String> certainRules1 : certainRules.entrySet()){
+		 if (certainRules1.getValue().equals(decision)) {
+			 certainRuleByDecision.put(certainRules1.getKey(),certainRules1.getValue());
+			 //System.err.println(certainRules1);
+		 }
+		 else continue;
+	 }
+	 return certainRuleByDecision;
+ }
+ private static void generateActionRulesTest() {
+	 trace(Thread.currentThread().getStackTrace());
+	 System.out.println("Generating Action Rules");
+     try {
+         String rule = "";
+         //int loop1Count = 0;
+         boolean actionRuleFound = false;
+
+         Map<ArrayList<String>,String> certainRulesByDecisionFrom = getCertainRulesByDecision(decisionFrom);
+         Map<ArrayList<String>,String> certainRulesByDecisionTo   = getCertainRulesByDecision(decisionTo  );
+         
+         //System.err.println("Decision From Action Rules("+decisionFrom+")"); System.err.println(certainRulesByDecisionFrom);
+         //System.err.println("Decision To Action Rules("+decisionTo+")");     System.err.println(certainRulesByDecisionTo  );
+         
+         
+         //System.err.println(stableAttributes.toString());
+         PrintWriter writer = new PrintWriter( new File(outFilePath,"ActionRules1.txt"), "UTF-8");
+         //System.err.println(certainRules);
+
+         //System.err.println(certainRules.entrySet());
+         
+         //If Both DecisionFrom and DecisionTo are not empty, then proceed, else abort
+         if(!(certainRulesByDecisionFrom.isEmpty() || certainRulesByDecisionTo.isEmpty())) {
+             //Loop through Certain Rules for DecisionFrom
+	         for (Map.Entry<ArrayList<String>, String> oneDecisionFromRule : certainRulesByDecisionFrom.entrySet()) {
+	         	//System.err.print("Certain Rule :");
+	         	//System.err.println(oneDecisionFromRule);
+	         	ArrayList<String> oneDecisionFromRuleKey = oneDecisionFromRule.getKey();
+         
+            	// Loop through Certain Rules for DecisionTo
+             	for (Map.Entry<ArrayList<String>, String> oneDecisonToRule : certainRulesByDecisionTo.entrySet()) {
+                     //System.out.println(certainRules2.getKey().equals(certainRules1.getKey()));
+                 	//System.err.print("\t\t");
+                 	//System.err.println(oneDecisonToRule);
+                 	ArrayList<String> oneDecisonToRuleKey = oneDecisonToRule.getKey();
+                 	
+                 	String primeAttribute = "";
+                     
+                    //ArrayList<String> checkCertainValues1 = certainRules1.getKey();
+                 	//Check if Value is Stable Attribute
+                 	//Loop through Rule Attribute Values of Decision From  
+                    for (String oneDecisionFromRuleKeyVal : oneDecisionFromRuleKey) {
+                    	// Skip if Attribute is a stable attribute
+						if (stableAttributes.contains(oneDecisionFromRuleKeyVal)) {
+						    continue;
+						} else {
+						    primeAttribute = checkAttribute(oneDecisionFromRuleKeyVal);
+						     
+						    //ArrayList<String> checkCertainValues2 = certainRules2.getKey();
+						
+						    //Loop through Rule Attribute Values of Decision To  
+						    for (String oneDecisonToRuleKeyVal : oneDecisonToRuleKey) {
+						    	// if attribute from decision to Rules is a stable attribute 
+						    	// or if attribute from decision from Rules and attribute from decision to Rules are different
+						    	// then create rule from attribute to itself Ex . A2=A2
+						    	// else create rule from attributeValue1 in attribute(from) to attributeValeu2 in attribute(to) Ex G3->G3
+						        if (stableAttributes.contains(oneDecisonToRuleKeyVal) || !(checkAttribute(oneDecisonToRuleKeyVal).equals(primeAttribute))) {
+						            rule = formRule(rule, oneDecisonToRuleKeyVal, oneDecisonToRuleKeyVal);
+						        } else if (checkAttribute(oneDecisonToRuleKeyVal).equals(primeAttribute)) {
+						            rule = formRule(rule, oneDecisionFromRuleKeyVal, oneDecisonToRuleKeyVal);
+						        }
+						    }
+						}
+                    }
+                     
+                    if (rule.indexOf(primeAttribute) != -1
+                             && !primeAttribute.isEmpty()) {
+                             writer.println(rule + " ==> " +decisionFrom + "->" + decisionTo);
+                             //System.out.println(rule + " ==> " +decisionFrom + "->" + decisionTo);
+                             printMessage(rule + " ==> " +decisionFrom + "->" + decisionTo);
+                             actionRuleFound = true;
+                    }
+                    rule = "";
+                 
+                }	             
+	        }
+	        if(actionRuleFound == false) {
+	        	printMessage("No Action Rule found for Decision from " + decisionFrom + " to " + decisionTo);
+	        }
+        }
+        else {
+        	printMessage("No Action Rule found for Decision from " + decisionFrom + " to " + decisionTo);
+        }
+
+        writer.close();
+    } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+    	 
+        Logger.getLogger(Kdd.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    catch(Exception e) {
+    	 System.err.println(e.getMessage());
+    }
+}
+
  private static void generateActionRules() {
+	 trace(Thread.currentThread().getStackTrace());
         try {
             String rule = "";
-            int loop1Count = 0;
-            System.out.println(stableAttributes.toString());
+            //int loop1Count = 0;
+            //System.err.println("Decision From Action Rules("+decisionFrom+")");
+            //certainRulesByDecisionFrom = getCertainRulesByDecision(decisionFrom);
+            
+
+            System.err.println("Decision To Action Rules("+decisionTo+")");
+            getCertainRulesByDecision(decisionTo);
+            
+            System.err.println(stableAttributes.toString());
             PrintWriter writer = new PrintWriter( new File(outFilePath,"ActionRules1.txt"), "UTF-8");
-            //System.err.println(certainRules);
+            System.err.println(certainRules);
+
             //System.err.println(certainRules.entrySet());
+            
+            //Get all the Certain Rules
+            
             for (Map.Entry<ArrayList<String>, String> certainRules1 : certainRules.entrySet()) {
-                loop1Count++;
-                if (certainRules1.getValue().equals(decisionFrom)) {
-                    int loop2Count = 0;
-                    for (Map.Entry<ArrayList<String>, String> certainRules2 : certainRules.entrySet()) {
+            	//System.err.print("Certain Rule :");
+            	//System.err.println(certainRules1);
+            	ArrayList<String> checkCertainValues1 = certainRules1.getKey();
+                //loop1Count++;
+            // Get all Certain Rules that have Decision Value = DecisionFrom (source decision value)
+                if (certainRules1.getValue().equals(decisionFrom)) { //
+                    //int loop2Count = 0;
+            
+            // Compare All certain Values with each other
+
+                	for (Map.Entry<ArrayList<String>, String> certainRules2 : certainRules.entrySet()) {
                         //System.out.println(certainRules2.getKey().equals(certainRules1.getKey()));
+                    	//System.err.print("\t\t");
+                    	//System.err.println(certainRules2);
+                    	ArrayList<String> checkCertainValues2 = certainRules2.getKey();
+                    	
+            // Find Certain Rules that have decision Value = DecisionTo(Target Decision Value) else ignore
                         if ((!certainRules2.getValue().equals(decisionTo))) {
+                        	//System.err.println("\t\t\tcontinue");
                             continue;
                         } else {
                             String primeAttribute = "";
                             
-                            ArrayList<String> checkCertainValues1 = certainRules1
-                                    .getKey();
+                            //ArrayList<String> checkCertainValues1 = certainRules1.getKey();
                             for (String value1 : checkCertainValues1) {
                                 
                                 if (stableAttributes.contains(value1)) {
@@ -1342,18 +1786,11 @@ public class Kdd extends javax.swing.JFrame {
                                 } else {
                                     primeAttribute = checkAttribute(value1);
                                     
-                                    ArrayList<String> checkCertainValues2 = certainRules2
-                                            .getKey();
-                                    for (String value2 : checkCertainValues2) {
-                                        
-                                        if (stableAttributes.contains(value2)
-                                                || !(checkAttribute(value2)
-                                                        .equals(primeAttribute))) {
+                                    //ArrayList<String> checkCertainValues2 = certainRules2.getKey();
+                                    for (String value2 : checkCertainValues2) {                                        
+                                        if (stableAttributes.contains(value2) || !(checkAttribute(value2).equals(primeAttribute))) {
                                             rule = formRule(rule, value2, value2);
-                                            
-                                        } else if (checkAttribute(value2).equals(
-                                                primeAttribute)) {
-                                            
+                                        } else if (checkAttribute(value2).equals(primeAttribute)) {
                                             rule = formRule(rule, value1, value2);
                                         }
                                         
@@ -1363,15 +1800,15 @@ public class Kdd extends javax.swing.JFrame {
                             
                             if (rule.indexOf(primeAttribute) != -1
                                     && !primeAttribute.isEmpty()) {
-                                    writer.println("The first line");
-                                    writer.println("The second line");
+                                    //writer.println("The first line");
+                                    //writer.println("The second line");
                                     writer.println(rule + " ==> " +decisionFrom + "->" + decisionTo);
                                     //System.out.println(rule + " ==> " +decisionFrom + "->" + decisionTo);
                                     printMessage(rule + " ==> " +decisionFrom + "->" + decisionTo);
                             }
                             rule = "";
                         }
-                        loop2Count++;
+                        //loop2Count++;
                     }
                 } else {
                     continue;
@@ -1383,8 +1820,8 @@ public class Kdd extends javax.swing.JFrame {
  }
 
     private static String checkAttribute(String value1) {
-        for (Map.Entry<String, HashSet<String>> entryValue : distinctAttributeValues
-                .entrySet()) {
+    	trace(Thread.currentThread().getStackTrace());
+        for (Map.Entry<String, HashSet<String>> entryValue : distinctAttributeValues.entrySet()) {
             if (entryValue.getValue().contains(value1)) {
                 return entryValue.getKey();
             }
@@ -1393,6 +1830,7 @@ public class Kdd extends javax.swing.JFrame {
     }
 
     private static String formRule(String rule, String value1, String value2) {
+    	trace(Thread.currentThread().getStackTrace());
         if (!rule.isEmpty()) {
             rule += "^";
         }
@@ -1413,6 +1851,7 @@ public class Kdd extends javax.swing.JFrame {
     }
 
     private  void setStableAttributes(List<String> attributes) {
+    	trace(Thread.currentThread().getStackTrace());
         if(userStableAttribute.contains(",")){
             String[] keys = userStableAttribute.split(",");
                 for(int i=0;i<keys.length;i++){
@@ -1436,10 +1875,12 @@ public class Kdd extends javax.swing.JFrame {
     }
 
     private static boolean checkValid(List<String> attributes,String userStableAttribute) {
+    	trace(Thread.currentThread().getStackTrace());
         return attributes.contains(userStableAttribute);
     }
 
     private static void setDecisionAttribute(List<String> attributes) {
+    	trace(Thread.currentThread().getStackTrace());
         if (checkValid(attributes,decisionAtribute)) {
             attributes.remove(decisionAtribute);
             flexibleAttributes = attributes;
@@ -1454,6 +1895,7 @@ public class Kdd extends javax.swing.JFrame {
     }
 
     private static void removeDecisionValueFromAttributes(HashSet<String> decisionValues) {
+    	trace(Thread.currentThread().getStackTrace());
         for(String value : decisionValues){
             HashSet<String> newHash = new HashSet<>();
             newHash.add(value);
@@ -1462,36 +1904,122 @@ public class Kdd extends javax.swing.JFrame {
         }
     }
 
-    public static void writeFile(String outputString) throws IOException {
-         kdd.jLabelLoading.setText("Writing to File");
-         kdd.jLabelLoading.setVisible(true);
-        try {
-                    File file = new File(outFilePath, "ActionRules.txt");
-                    FileWriter fileWriter = new FileWriter(file);
-                    // Wrapping FileWriter to BufferedWriter to improve the efficiency
-                    BufferedWriter outStream = new BufferedWriter(fileWriter);
-                    // Writing outputs to file
-                    outStream.write(outputString);
-                    // Making sure we close the BufferedWriter to avoid memory leaks.
-                    outStream.flush();
-                    outStream.close();
-            } catch (IOException e) {
-                    e.printStackTrace();
+    public static void writeFileBuffered(Object outputString) {
+    	trace(Thread.currentThread().getStackTrace());
+
+ 		stringBuilder.append(outputString.toString());
+        //System.out.println(stringBuilder.toString().length());
+         if(stringBuilder.toString().length()>10000 || writeOutputFile == true) {
+             try {
+            	 Path dir      = Paths.get(outFilePath);
+            	 Path filePath = dir.resolve("ActionRules.txt");
+            	 File file     = new File(filePath.toString());
+            	 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhh24mmss");
+            	 String dateString = format.format(new Date());
+
+            	 File renamedfile = new File(filePath.toString()+"."+dateString);
+            	 
+		         //Path filePath = Paths.get(outFilePath+"/ActionRules.txt");
+		         if (!Files.exists(filePath)) {
+		             Files.createFile(filePath);
+		             outputFileWriteStarted = true;
+		         }
+		         else if(Files.exists(filePath) && outputFileWriteStarted == false) {
+		        	 file.renameTo(renamedfile);
+		         }
+		         Files.write(filePath, stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
+		         stringBuilder.setLength(0);
+            }catch (IOException e) {
+            	e.printStackTrace();
             }
-          kdd.jLabelLoading.setText("Program Completed. Please see output in ActionRules.txt");
-          kdd.jLabelLoading.setVisible(true);
+         }
     }
+
+    public static void writeFile(String outputString) throws IOException {
+    	trace(Thread.currentThread().getStackTrace());
+        kdd.jLabelLoading.setText("Writing to File");
+        kdd.jLabelLoading.setVisible(true);
+       try {
+                   File file = new File(outFilePath, "ActionRules.txt");
+                   FileWriter fileWriter = new FileWriter(file,outputFileWriteStarted);
+                   // Wrapping FileWriter to BufferedWriter to improve the efficiency
+                   BufferedWriter outStream = new BufferedWriter(fileWriter);
+                   // Writing outputs to file
+                   outStream.write(outputString);
+                   // Making sure we close the BufferedWriter to avoid memory leaks.
+                   outStream.flush();
+                   outStream.close();
+           } catch (IOException e) {
+                   e.printStackTrace();
+           }
+         kdd.jLabelLoading.setText("Program Completed. Please see output in ActionRules.txt");
+         kdd.jLabelLoading.setVisible(true);
+   }
     public boolean checkFile(String fileName){
+    	trace(Thread.currentThread().getStackTrace());
         File file = new File(fileName);
         //System.out.println(fileName +":"+file.exists());
-        printMessage(fileName +":"+file.exists());
+        //printMessage(fileName +":"+file.exists());
         return (file.exists() && file.isFile());
     }
 //    public static void printText(Object message){
 //        kdd.jTextArea1.append(message.toString()+"\n");
 //        System.out.println(message);
 //    }
-        
+
+//    public static void trace(StackTraceElement e[]) {
+// 	   boolean doNext = false;
+// 	   for (StackTraceElement s : e) {
+// 	       if (doNext) {
+// 	          //System.err.println(s.getMethodName());
+// 	             try {
+//
+// 	            	 String path = "";
+// 	            	 File f = new File("OutFile.txt"); 
+// 	            	 path = f.getAbsolutePath();
+// 	            	 f = new File(path);
+// 	            	 path = f.getParent();
+// 	            	 
+// 	            	 
+// 	            	 if (outFilePath == ".") {
+// 	            		 outFilePath = path;            		 
+// 	            	 }
+// 	            	 Path dir      = Paths.get(outFilePath);
+// 	            	 Path filePath = dir.resolve("ActionRules.log.txt");
+// 	            	 File file     = new File(filePath.toString());
+// 	            	 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhh24mmss");
+// 	            	 String dateString = format.format(new Date());
+//
+// 	            	 File renamedfile = new File(filePath.toString()+"."+dateString);
+//
+// 			         if (!Files.exists(filePath)) {
+// 			             Files.createFile(filePath);
+// 			             outputLogFileWriteStarted = true;
+// 			         }
+// 			         else if(Files.exists(filePath) && outputLogFileWriteStarted == false) {
+// 			        	 file.renameTo(renamedfile);
+// 			         }
+// 			         Files.write(filePath, (s.getMethodName().toString()+" "+(new Date()).toString()+stringBuilder.toString()+"\n").getBytes(), StandardOpenOption.APPEND);
+// 			         
+// 	            }catch (IOException ee) {
+// 	            	ee.printStackTrace();
+// 	            }
+// 	          return;
+// 	       }
+// 	       doNext = s.getMethodName().equals("getStackTrace");
+// 	   }
+// 	 }
+    public static void trace(StackTraceElement e[]) {
+  	   boolean doNext = false;
+  	   for (StackTraceElement s : e) {
+  	       if (doNext) {
+  	          //System.err.println(s.getMethodName());
+  	          //System.err.println(s.getMethodName().toString()+" "+(new Date()).toString());
+  	       }
+  	       doNext = s.getMethodName().equals("getStackTrace");
+  	   }
+  	 }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton attrFileBrowseBtn;
     private java.awt.Label attrFileLabel;

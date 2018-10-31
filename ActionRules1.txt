@@ -1,0 +1,12 @@
+(Shape2,->Shape2)^(Density2,->Density2)^(Shape4->Shape2)^(Density2,->Density2) ==> Severity1->Severity0
+(Shape2,->Shape2)^(Density2,->Density2)^(Margin3->Margin1)^(Shape4->Shape2)^(Density2,->Density2)^(Margin1,->Margin1) ==> Severity1->Severity0
+(BI-RADS4=BI-RADS4)^(Density2,->Density2)^(Margin3->Margin1) ==> Severity1->Severity0
+(Shape2,->Shape2)^(Density2,->Density2)^(Margin3->Margin1) ==> Severity1->Severity0
+(Shape2,->Shape2)^(Density2,->Density2)^(Shape4->Shape2)^(Density2,->Density2)^(Shape2,->Shape2)^(Density3->Density2) ==> Severity1->Severity0
+(BI-RADS4=BI-RADS4)^(Density2,->Density2)^(Margin3->Margin1)^(BI-RADS4=BI-RADS4)^(Density2,->Density2)^(Margin1,->Margin1)^(BI-RADS4=BI-RADS4)^(Density3->Density2)^(Margin1,->Margin1) ==> Severity1->Severity0
+(Shape2,->Shape2)^(Density2,->Density2)^(Margin3->Margin1)^(Shape4->Shape2)^(Density2,->Density2)^(Margin1,->Margin1)^(Shape2,->Shape2)^(Density3->Density2)^(Margin1,->Margin1) ==> Severity1->Severity0
+(BI-RADS4=BI-RADS4)^(Density2,->Density2)^(BI-RADS4=BI-RADS4)^(Density2,->Density2)^(BI-RADS4=BI-RADS4)^(Density3->Density2) ==> Severity1->Severity0
+(Shape2,->Shape2)^(Density2,->Density2)^(Shape2,->Shape2)^(Density3->Density2) ==> Severity1->Severity0
+(BI-RADS4=BI-RADS4)^(Density2,->Density2)^(Margin3->Margin1)^(BI-RADS4=BI-RADS4)^(Density3->Density2)^(Margin1,->Margin1) ==> Severity1->Severity0
+(Shape2,->Shape2)^(Density2,->Density2)^(Margin3->Margin1)^(Shape2,->Shape2)^(Density3->Density2)^(Margin1,->Margin1) ==> Severity1->Severity0
+(BI-RADS4=BI-RADS4)^(Density2,->Density2)^(BI-RADS4=BI-RADS4)^(Density3->Density2) ==> Severity1->Severity0

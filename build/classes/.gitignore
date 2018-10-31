@@ -1,2 +1,16 @@
-/kddproject/
+/.DS_Store
+/.classpath
+/.project
+/ActionRules1.txt
+/KDD.backup.java.20181027
+/attribute.txt
+/build.xml
 /build/
+/data.csv
+/dist.zip
+/dist/
+/jars/
+/kddproject/
+/manifest.mf
+/nbproject/
+/test/
