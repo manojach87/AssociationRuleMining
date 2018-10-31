@@ -790,18 +790,13 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
     private void generateActionRulesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateActionRulesButtonActionPerformed
         // TODO add your handling code here:
         
-
         setStableAttributes(attributeNames);
-        
-        //System.out.println(jListStableAttributesAvailable.getSelectedValuesList());
-        
-        //System.out.println("Min Confidence = "+minimum_Confidence+", Min Support = "+minimum_Support);
-        printMessage("Min Confidence = "+minConfidence+", Min Support = "+minSupport);
+        printMessage	 ("Min Confidence = "+minConfidence+", Min Support = "+minSupport);
+        writeFileBuffered("Min Confidence = "+minConfidence+", Min Support = "+minSupport);
         findRules();
-        //generateActionRules();
-        generateActionRulesTest();
-        ArrayList<String> arr = new ArrayList<>();
-        arr.add("A1");
+        generateActionRules();
+//        ArrayList<String> arr = new ArrayList<>();
+//        arr.add("A1");
 //        arr.add("F2");
         //System.out.println(findLineNumInFile(arr)); // To get line Number of the occurrence of a set of attributes
         //loops();
@@ -1203,30 +1198,17 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
 		Set<ArrayList<String>> keySet = possibleRules.keySet();
 		ArrayList<ArrayList<String>> keyList = new ArrayList<>();
 		keyList.addAll(keySet);
-//		System.out.print("keySet : ");
-//		System.out.println(keySet);
-//		System.out.print("keyList");
-//		System.out.println(keyList);
 		
 		for(int i = 0;i<possibleRules.size();i++){
 			for(int j = (i+1);j<possibleRules.size();j++){
 				HashSet<String> combinedKeys = new HashSet<>(keyList.get(i));
 				combinedKeys.addAll(new HashSet<>(keyList.get(j)));
-				//System.out.print("combinedKeys : ");
-				//System.out.println(combinedKeys);
 				
 				if(!isSameGroup(combinedKeys)){
-					//combineAttributeValues(combinedKeys);
 					combineAttributeValuesNew(combinedKeys);
 				}
 			}
 		}
-//
-//		System.out.println("After----------");
-//		System.out.print("keySet : ");
-//		System.out.println(keySet);
-//		System.out.print("keyList");
-//		System.out.println(keyList);
 		
 		possibleRules.clear();
 		
@@ -1259,7 +1241,6 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
 	private static void removeRedundantValues() {
 		trace(Thread.currentThread().getStackTrace());
 		HashSet<String> mark = new HashSet<>();
-		
 		for(Map.Entry<HashSet<String>, HashSet<String>> reducedAttributeValue : reducedAttributeValues.entrySet()){
 			for(Map.Entry<HashSet<String>, HashSet<String>> attributeValue : attributeValues.entrySet()){
 				
@@ -1268,10 +1249,7 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
 				}
 			}
 		}
-		
 		reducedAttributeValues.remove(mark);
-		
-		
 	}
 	private static void clearAttributeValues() {
 		trace(Thread.currentThread().getStackTrace());
@@ -1281,7 +1259,7 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
 		 }
 		 reducedAttributeValues.clear();
 	}
- 	private static void generateActionRulesTest() {
+ 	private static void generateActionRules() {
 		 trace(Thread.currentThread().getStackTrace());
 		 printMessage     ("Generating Action Rules");
 		 writeFileBuffered("Generating Action Rules");
@@ -1377,10 +1355,8 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
         if (isValidStableAtribute(attributes,decisionAtribute)) {
             attributes.remove(decisionAtribute);
             flexibleAttributes = attributes;
-
             HashSet<String> decisionValues = distinctAttributeValues.get(decisionAtribute);
             removeDecisionValueFromAttributes(decisionValues);
-
         }else{
                 printMessage		("Invalid attrbibute.");
                 writeFileBuffered	("Invalid Attribute.\n");
@@ -1741,14 +1717,16 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
     
 
 	private static String 						getAttributeName(String value) {
+		Map<String, HashSet<String>> distinctAttributeVals = distinctAttributeValues;
 		String attributeName="N/A";
-		for(String str:distinctAttributeValues.keySet()){
-			for(String str1:distinctAttributeValues.get(str)) {
+		for(String str:distinctAttributeVals.keySet()){
+			for(String str1:distinctAttributeVals.get(str)) {
 				if(str1==value) {
 					attributeName = str; 
 				}
 			}
 		}
+		//distinctAttributeVals.clear();
 		return attributeName;
 	}
 
