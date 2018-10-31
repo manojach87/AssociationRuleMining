@@ -1336,7 +1336,8 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
 							    	// or if attribute from decision from Rules and attribute from decision to Rules are different
 							    	// then create rule from attribute to itself Ex . A2=A2
 							    	// else create rule from attributeValue1 in attribute(from) to attributeValeu2 in attribute(to) Ex G3->G3
-							        if (stableAttributes.contains(oneDecisonToRuleKeyVal) || !(getAttributeKey(oneDecisonToRuleKeyVal).equals(primeAttribute))) {
+							        if (stableAttributes.contains(oneDecisonToRuleKeyVal) 
+							        		|| !(getAttributeKey(oneDecisonToRuleKeyVal).equals(primeAttribute))) {
 							            rule = getRule(rule, oneDecisonToRuleKeyVal, oneDecisonToRuleKeyVal);
 							        } else if (getAttributeKey(oneDecisonToRuleKeyVal).equals(primeAttribute)) {
 							            rule = getRule(rule, oneDecisionFromRuleKeyVal, oneDecisonToRuleKeyVal);
@@ -1783,7 +1784,6 @@ public class ActionRulesKdd extends javax.swing.JFrame implements Runnable {
 
         if (value1.equals(value2)) {
             if (stableAttributes.contains(value2)) {
-
                 rule += "(" + value1 + "=" + value2 + ")";
             } else {
                 rule += "(" + value1 + ",->" + value2 + ")";
